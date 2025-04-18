@@ -21,6 +21,9 @@ function oshiire-bot_discord_announcements () {
 	if [ -f "${discord_webhook_config_file}" ]; then
 		discord_webhook_config=$(cat "${discord_webhook_config_file}"|jq)
 		discord_webhook_url="$(echo ${discord_webhook_config}|jq -r .external.discord.webhook.url)"
+		if [ ${#} -ge 2 -a "$(echo ${2}|sed 's/^ *\| *$//')" != '' ]; then
+			discord_webhook_url="$(echo ${2}|sed 's/^ *\| *$//')"
+		fi
 		if [ -f ${logdir}/announce.json ]; then
 			discord_embed_json=$(cat ${logdir}/announce.json)
 			echo ${discord_embed_json}>${logdir}/${HOSTNAME%%.*}_temporary.json
