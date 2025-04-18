@@ -136,3 +136,4 @@ function oshiire-bot_discord_announcements () {
 		fi
 	fi
 }
+oshiire-bot_discord_announcements
