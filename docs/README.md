@@ -74,8 +74,8 @@ GET https://api.github.com/repos/n138-kz/oshiire-bot-v3
 
 ## How to use
 
-1. Download [./wh.sh](./wh.sh)
-2. Execute [./wh.sh](./wh.sh)
+1. Download [./wh.sh](/wh.sh)
+2. Execute [./wh.sh](/wh.sh)
 
 ```sh
 . ./wh.sh
