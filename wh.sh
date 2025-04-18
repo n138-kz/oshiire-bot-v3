@@ -1,7 +1,7 @@
 function oshiire-bot_discord_announcements () {
 
 	# 実行モード
-	mode="${1}"
+	mode="$(echo ${1}|sed 's/^ *\| *$//')"
 
 	# 変数定義; 環境周り
 	logdir=./discord_json_announcements
