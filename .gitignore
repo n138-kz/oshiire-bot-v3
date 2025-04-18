@@ -26,3 +26,4 @@ build/
 *.exe
 *.msi
 *.jar
+/discord_json_announcements
