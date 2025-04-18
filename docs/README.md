@@ -82,6 +82,11 @@ GET https://api.github.com/repos/n138-kz/oshiire-bot-v3
 ```
 
 3. Modify config.json
+
+> [!TIP]
+> `. ./wh.sh` を初回起動時に自動生成されるので、適宜修正します。
+> `external/discord/webhook/url` だけは修正しないと動きません。
+
 4. Execute `oshiire-bot_discord_announcements` with arg (`POST`|`PATCH`|`DELETE`)
 
 ```sh
