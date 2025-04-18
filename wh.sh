@@ -113,7 +113,7 @@ function oshiire-bot_discord_announcements () {
 			*)
 				echo "Unknown sub-command: ${mode}"
 				echo ''
-				echo 'Usage:  discord_test_oshi_v2 COMMAND'
+				echo 'Usage:  oshiire-bot_discord_announcements COMMAND'
 				echo ''
 				echo 'Commands:'
 				echo '  COMMAND:'
