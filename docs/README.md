@@ -71,3 +71,19 @@ GET https://api.github.com/repos/n138-kz/oshiire-bot-v3
 - Warranty / 無保証
 
 </details>
+
+## How to use
+
+1. Download [./wh.sh](./wh.sh)
+2. Execute [./wh.sh](./wh.sh)
+
+```sh
+. ./wh.sh
+```
+
+3. Modify config.json
+4. Execute `oshiire-bot_discord_announcements` with arg (`POST`|`PATCH`|`DELETE`)
+
+```sh
+oshiire-bot_discord_announcements POST
+```
