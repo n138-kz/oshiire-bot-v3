@@ -21,8 +21,8 @@ function oshiire-bot_discord_announcements () {
 	if [ -f "${discord_webhook_config_file}" ]; then
 		discord_webhook_config=$(cat "${discord_webhook_config_file}"|jq)
 		discord_webhook_url="$(echo ${discord_webhook_config}|jq -r .external.discord.webhook.url)"
-		if [ -f ${logdir}/${HOSTNAME%%.*}_announce.json ]; then
-			discord_embed_json=$(cat ${logdir}/${HOSTNAME%%.*}_announce.json)
+		if [ -f ${logdir}/announce.json ]; then
+			discord_embed_json=$(cat ${logdir}/announce.json)
 			echo ${discord_embed_json}>${logdir}/${HOSTNAME%%.*}_temporary.json
 			discord_embed_json=$(jq '.embeds[0].timestamp="'$(date --utc '+%Y-%m-%dT%H:%M:%S.000Z')'"' "${logdir}/${HOSTNAME%%.*}_temporary.json")
 			shred -uz "${logdir}/${HOSTNAME%%.*}_temporary.json"
@@ -53,11 +53,11 @@ function oshiire-bot_discord_announcements () {
 			'POST')
 				# 投稿する内容をjsonファイルに残す
 				echo ${discord_embed_json}|jq>${logdir}/${HOSTNAME%%.*}_${runtime}.json
-				echo ${discord_embed_json}|jq>${logdir}/${HOSTNAME%%.*}_announce.json
+				echo ${discord_embed_json}|jq>${logdir}/announce.json
 				
 				logger_sev=$(printf "%-7s" 'Debug')
 				echo "[$(date '+%Y-%m-%d %H:%M:%S')] [${logger_sev}] Writting: ${logdir}/${HOSTNAME%%.*}_${runtime}.json"
-				echo "[$(date '+%Y-%m-%d %H:%M:%S')] [${logger_sev}] Writting: ${logdir}/${HOSTNAME%%.*}_announce.json"
+				echo "[$(date '+%Y-%m-%d %H:%M:%S')] [${logger_sev}] Writting: ${logdir}/announce.json"
 				
 				# jsonファイルから投稿する内容を拾ってdiscordに投げる
 				curl -s -X POST -H 'Content-Type: application/json' -d @${logdir}/${HOSTNAME%%.*}_${runtime}.json ${discord_webhook_url}'?wait=true'|jq>${logdir}/${HOSTNAME%%.*}_discord-async_${runtime}_log.json 2>&1
@@ -68,11 +68,11 @@ function oshiire-bot_discord_announcements () {
 				;;
 			'PATCH')
 				if [ -f ${logdir}/${HOSTNAME%%.*}_discord-sessions.log ]; then
-					if [ -f ${logdir}/${HOSTNAME%%.*}_announce.json ]; then
-						discord_embed_json=$(cat ${logdir}/${HOSTNAME%%.*}_announce.json)
+					if [ -f ${logdir}/announce.json ]; then
+						discord_embed_json=$(cat ${logdir}/announce.json)
 						echo ${discord_embed_json}>${logdir}/${HOSTNAME%%.*}_temporary.json
 						discord_embed_json=$(jq '.embeds[0].timestamp="'$(date --utc '+%Y-%m-%dT%H:%M:%S.000Z')'"' "${logdir}/${HOSTNAME%%.*}_temporary.json")
-						echo '{"announce_json":{"data":'${discord_embed_json}'},"meta":{"announce_file":{"path":"'${logdir}/${HOSTNAME%%.*}_announce.json'"}}}'|jq
+						echo '{"announce_json":{"data":'${discord_embed_json}'},"meta":{"announce_file":{"path":"'${logdir}/announce.json'"}}}'|jq
 						shred -uz "${logdir}/${HOSTNAME%%.*}_temporary.json"
 
 						for line in $(cat ${logdir}/${HOSTNAME%%.*}_discord-sessions.log)
@@ -86,7 +86,7 @@ function oshiire-bot_discord_announcements () {
 						done
 					else
 						logger_sev=$(printf "%-7s" 'Error')
-						echo "[$(date '+%Y-%m-%d %H:%M:%S')] [${logger_sev}] No such file or directory: ${logdir}/${HOSTNAME%%.*}_announce.json"
+						echo "[$(date '+%Y-%m-%d %H:%M:%S')] [${logger_sev}] No such file or directory: ${logdir}/announce.json"
 					fi
 				else
 					logger_sev=$(printf "%-7s" 'Error')
