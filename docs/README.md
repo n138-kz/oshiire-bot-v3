@@ -88,7 +88,7 @@ GET https://api.github.com/repos/n138-kz/oshiire-bot-v3
 webhookURLの発行方法は以下を参照してください。  
 
 - [228383668-Intro-to-Webhooks(英語)](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks)
-- [228383668-Intro-to-Webhooks(和訳)](https://support.discord.com/hc/ja/articles/228383668-Intro-to-Webhooks)
+- [Webhooksへの序章(和訳)](https://support.discord.com/hc/ja/articles/228383668-Intro-to-Webhooks)
 
 4. Execute `oshiire-bot_discord_announcements` with arg (`POST`|`PATCH`|`DELETE`)
 
