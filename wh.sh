@@ -24,8 +24,8 @@ function oshiire-bot_discord_announcements () {
 		if [ ${#} -ge 2 -a "$(echo ${2}|sed 's/^ *\| *$//')" != '' ]; then
 			discord_webhook_url="$(echo ${2}|sed 's/^ *\| *$//')"
 		fi
-		if [ -f ${logdir}/announce.json ]; then
-			discord_embed_json=$(cat ${logdir}/announce.json)
+		if [ -f ${logdir}/_announce.json ]; then
+			discord_embed_json=$(cat ${logdir}/_announce.json)
 			echo ${discord_embed_json}>${logdir}/${HOSTNAME%%.*}_temporary.json
 			discord_embed_json=$(jq '.embeds[0].timestamp="'$(date --utc '+%Y-%m-%dT%H:%M:%S.000Z')'"' "${logdir}/${HOSTNAME%%.*}_temporary.json")
 			shred -uz "${logdir}/${HOSTNAME%%.*}_temporary.json"
@@ -56,29 +56,29 @@ function oshiire-bot_discord_announcements () {
 			'POST')
 				# 投稿する内容をjsonファイルに残す
 				echo ${discord_embed_json}|jq>${logdir}/${HOSTNAME%%.*}_${runtime}.json
-				echo ${discord_embed_json}|jq>${logdir}/announce.json
+				echo ${discord_embed_json}|jq>${logdir}/_announce.json
 				
 				logger_sev=$(printf "%-7s" 'Debug')
 				echo "[$(date '+%Y-%m-%d %H:%M:%S')] [${logger_sev}] Writting: ${logdir}/${HOSTNAME%%.*}_${runtime}.json"
-				echo "[$(date '+%Y-%m-%d %H:%M:%S')] [${logger_sev}] Writting: ${logdir}/announce.json"
+				echo "[$(date '+%Y-%m-%d %H:%M:%S')] [${logger_sev}] Writting: ${logdir}/_announce.json"
 				
 				# jsonファイルから投稿する内容を拾ってdiscordに投げる
 				curl -s -X POST -H 'Content-Type: application/json' -d @${logdir}/${HOSTNAME%%.*}_${runtime}.json ${discord_webhook_url}'?wait=true'|jq>${logdir}/${HOSTNAME%%.*}_discord-async_${runtime}_log.json 2>&1
 				discord_message_id=$(cat ${logdir}/${HOSTNAME%%.*}_discord-async_${runtime}_log.json|jq -r .id)
 
 				curl -s -X PATCH -H 'Content-Type: application/json' -d @${logdir}/${HOSTNAME%%.*}_${runtime}.json ${discord_webhook_url}/messages/${discord_message_id}|jq>${logdir}/${HOSTNAME%%.*}_discord-async_${runtime}_log.json 2>&1
-				echo ${discord_webhook_url}/messages/${discord_message_id} >> ${logdir}/${HOSTNAME%%.*}_discord-sessions.log
+				echo ${discord_webhook_url}/messages/${discord_message_id} >> ${logdir}/_discord-sessions.txt
 				;;
 			'PATCH')
-				if [ -f ${logdir}/${HOSTNAME%%.*}_discord-sessions.log ]; then
-					if [ -f ${logdir}/announce.json ]; then
-						discord_embed_json=$(cat ${logdir}/announce.json)
+				if [ -f ${logdir}/_discord-sessions.txt ]; then
+					if [ -f ${logdir}/_announce.json ]; then
+						discord_embed_json=$(cat ${logdir}/_announce.json)
 						echo ${discord_embed_json}>${logdir}/${HOSTNAME%%.*}_temporary.json
 						discord_embed_json=$(jq '.embeds[0].timestamp="'$(date --utc '+%Y-%m-%dT%H:%M:%S.000Z')'"' "${logdir}/${HOSTNAME%%.*}_temporary.json")
-						echo '{"announce_json":{"data":'${discord_embed_json}'},"meta":{"announce_file":{"path":"'${logdir}/announce.json'"}}}'|jq
+						echo '{"announce_json":{"data":'${discord_embed_json}'},"meta":{"announce_file":{"path":"'${logdir}/_announce.json'"}}}'|jq
 						shred -uz "${logdir}/${HOSTNAME%%.*}_temporary.json"
 
-						for line in $(cat ${logdir}/${HOSTNAME%%.*}_discord-sessions.log)
+						for line in $(cat ${logdir}/_discord-sessions.txt)
 						do
 							logger_sev=$(printf "%-7s" 'Info')
 							echo "[$(date '+%Y-%m-%d %H:%M:%S')] [${logger_sev}] Sending: ${line}"
@@ -89,25 +89,25 @@ function oshiire-bot_discord_announcements () {
 						done
 					else
 						logger_sev=$(printf "%-7s" 'Error')
-						echo "[$(date '+%Y-%m-%d %H:%M:%S')] [${logger_sev}] No such file or directory: ${logdir}/announce.json"
+						echo "[$(date '+%Y-%m-%d %H:%M:%S')] [${logger_sev}] No such file or directory: ${logdir}/_announce.json"
 					fi
 				else
 					logger_sev=$(printf "%-7s" 'Error')
-					echo "[$(date '+%Y-%m-%d %H:%M:%S')] [${logger_sev}] No such file or directory: ${logdir}/${HOSTNAME%%.*}_discord-sessions.log"
+					echo "[$(date '+%Y-%m-%d %H:%M:%S')] [${logger_sev}] No such file or directory: ${logdir}/_discord-sessions.txt"
 				fi
 				;;
 			'DELETE')
-				if [ -f ${logdir}/${HOSTNAME%%.*}_discord-sessions.log ]; then
-					for line in $(cat ${logdir}/${HOSTNAME%%.*}_discord-sessions.log)
+				if [ -f ${logdir}/_discord-sessions.txt ]; then
+					for line in $(cat ${logdir}/_discord-sessions.txt)
 					do
 						logger_sev=$(printf "%-7s" 'Info')
 						echo "[$(date '+%Y-%m-%d %H:%M:%S')] [${logger_sev}] Request Deleting: ${line}"
 						curl -s -X DELETE -H 'Content-Type: application/json' ${line}
 					done
-					:>${logdir}/${HOSTNAME%%.*}_discord-sessions.log
+					:>${logdir}/_discord-sessions.txt
 				else
 					logger_sev=$(printf "%-7s" 'Error')
-					echo "[$(date '+%Y-%m-%d %H:%M:%S')] [${logger_sev}] No such file or directory: ${logdir}/${HOSTNAME%%.*}_discord-sessions.log"
+					echo "[$(date '+%Y-%m-%d %H:%M:%S')] [${logger_sev}] No such file or directory: ${logdir}/_discord-sessions.txt"
 				fi
 				;;
 			*)
@@ -119,9 +119,9 @@ function oshiire-bot_discord_announcements () {
 				echo '  COMMAND:'
 				echo '    POST    POST the New Announce to DISCORD'
 				echo '    PATCH   Modify the All Announce'
-				echo '            Refs file: '${logdir}/${HOSTNAME%%.*}_discord-sessions.log
+				echo '            Refs file: '${logdir}/_discord-sessions.txt
 				echo '    DELETE  Delete the All Announce'
-				echo '            Refs file: '${logdir}/${HOSTNAME%%.*}_discord-sessions.log
+				echo '            Refs file: '${logdir}/_discord-sessions.txt
 				echo ''
 		esac
 	else
