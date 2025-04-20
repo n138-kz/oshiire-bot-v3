@@ -17,7 +17,7 @@ function oshiire-bot_discord_announcements () {
 
 	# 投稿する内容を定義
 	discord_webhook_config=""
-	discord_webhook_config_file="$(pwd)/config.json"
+	discord_webhook_config_file="$(pwd)/.secret/config.json"
 	if [ -f "${discord_webhook_config_file}" ]; then
 		discord_webhook_config=$(cat "${discord_webhook_config_file}"|jq)
 		discord_webhook_url="$(echo ${discord_webhook_config}|jq -r .external.discord.webhook.url)"
