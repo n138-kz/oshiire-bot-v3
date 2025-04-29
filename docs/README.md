@@ -113,6 +113,6 @@ oshiire-bot_discord_announcements PATCH
 ```
 
 > [!TIP]
-> `.secret/config.json`にwebhookトークンURL(webhookのURL)を書かなくても
-> 下記例のように第二引数にURL(文字列型)を与えることでPOST可能。
-> `oshiire-bot_discord_announcements POST https://discord.com/api/webhooks/{webhook-id}/{webhook-token}`
+> `.secret/config.json`にwebhookトークンURL(webhookのURL)を書かなくても  
+> 下記例のように第二引数にURL(文字列型)を与えることでPOST可能。  
+> `oshiire-bot_discord_announcements POST https://discord.com/api/webhooks/{webhook-id}/{webhook-token}`  
