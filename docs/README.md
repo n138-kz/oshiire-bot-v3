@@ -122,7 +122,7 @@ oshiire-bot_discord_announcements PATCH
 
 > [!WARNING]
 > 第一引数に`DELETE`を指定することで、`_discord-sessions.txt`に記載されている一覧に対し削除を行います。  
-> 削除後は一覧を初期化します。エラーが発生している場合にお試しください。
-> 個別で削除する場合は、下記参考に実行してください。（os標準コマンドで実施します。）
+> 削除後は一覧を初期化します。エラーが発生している場合にお試しください。  
+> 個別で削除する場合は、下記参考に実行してください。（os標準コマンドで実施します。）  
 > 一覧に書かれているアドレスそのまま貼り付ければ動作するはずです。  
 > `curl -s -X DELETE -H 'Content-Type: application/json' https://discord.com/api/webhooks/{webhook-id}/{webhook-token}/messages/{message-id}`
