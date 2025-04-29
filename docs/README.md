@@ -74,6 +74,14 @@ GET https://api.github.com/repos/n138-kz/oshiire-bot-v3
 
 ## How to use
 
+### 動作環境
+
+|||
+|:-:|:-|
+|bash|`GNU bash 4.4.20(1)`,<br />`GNU bash 5.1.8(1)`|
+
+### 初回のみ
+
 1. Download [./wh.sh](/wh.sh)
 2. Execute [./wh.sh](/wh.sh)
 
@@ -90,8 +98,21 @@ webhookURLの発行方法は以下を参照してください。
 - [228383668-Intro-to-Webhooks(英語)](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks)
 - [Webhooksへの序章(和訳)](https://support.discord.com/hc/ja/articles/228383668-Intro-to-Webhooks)
 
-4. Execute `oshiire-bot_discord_announcements` with arg (`POST`|`PATCH`|`DELETE`)
+4. Execute `oshiire-bot_discord_announcements` with arg `POST`
 
 ```sh
 oshiire-bot_discord_announcements POST
 ```
+
+### 2回目以降
+
+4. Execute `oshiire-bot_discord_announcements` with arg `PATCH`
+
+```sh
+oshiire-bot_discord_announcements PATCH
+```
+
+> [!TIP]
+> `.secret/config.json`にwebhookトークンURL(webhookのURL)を書かなくても
+> 下記例のように第二引数にURL(文字列型)を与えることでPOST可能。
+> `oshiire-bot_discord_announcements POST https://discord.com/api/webhooks/{webhook-id}/{webhook-token}`
