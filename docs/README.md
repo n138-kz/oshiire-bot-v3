@@ -16,6 +16,20 @@
 [![GitHub language count](https://img.shields.io/github/languages/count/n138-kz/oshiire-bot-v3)](/../../)
 [![GitHub top language](https://img.shields.io/github/languages/top/n138-kz/oshiire-bot-v3)](/../../)
 
+## ToC
+- [oshiire-bot-v3](#oshiire-bot-v3)
+  - [Activity](#activity)
+  - [ToC](#toc)
+  - [Github RestAPI](#github-restapi)
+  - [Refs](#refs)
+  - [License](#license)
+    - [Permissions / 許可](#permissions--許可)
+    - [Limitations / 制限事項](#limitations--制限事項)
+  - [How to use](#how-to-use)
+    - [動作環境](#動作環境)
+    - [初回のみ](#初回のみ)
+    - [2回目以降](#2回目以降)
+
 ## Github RestAPI
 
 ```http
