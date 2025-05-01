@@ -56,7 +56,5 @@ $content_json=json_decode($content,true);
 			<textarea><?php echo htmlspecialchars(json_encode($content_json,$config['internal']['jsonparse']['encode']));?></textarea>
 		</fieldset>
 	</form>
-	header('content-type:application/json');
-	echo json_encode($_SESSION);
 </body>
 </html>
