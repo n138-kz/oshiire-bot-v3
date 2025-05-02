@@ -52,11 +52,11 @@ $content_json=json_decode($content,true);
 					<th></th>
 				</tr>
 				<tr>
-					<td></td>
+					<td><img src="https://discord.com/assets/903e44646bb0b466.svg" alt=""></td>
 					<td><code>:new:</code></td>
 				</tr>
 				<tr>
-					<td></td>
+					<td><img src="https://discord.com/assets/f7750b45770701de.svg" alt=""></td>
 					<td><code>:tada:</code></td>
 				</tr>
 			</table>
