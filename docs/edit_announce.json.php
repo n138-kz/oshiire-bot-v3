@@ -45,6 +45,22 @@ $content_json=json_decode($content,true);
 		<fieldset>
 			<input type="datetime-local" value="<?php echo date('Y-m-d\TH:i:s');?>" id="datetime_to_epoch11" onchange="console.log(this.value);document.querySelector('#datetime_to_epoch12').value=new Date(this.value).getTime()/10**3"> → <input type="text" value="<?php echo time();?>" readonly id="datetime_to_epoch12">
 		</fieldset>
+		<fieldset>
+			<table>
+				<tr>
+					<th></th>
+					<th></th>
+				</tr>
+				<tr>
+					<td></td>
+					<td><code>:new:</code></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td><code>:tada:</code></td>
+				</tr>
+			</table>
+		</fieldset>
 		<input type="button" value="check&submit" onclick="send(this)">
 		<input type="submit" value="check&submit">
 		<fieldset>
