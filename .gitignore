@@ -2,6 +2,7 @@
 Backup/
 backup/
 *.bak*
+assets/
 
 # Temporary files
 *.tmp
