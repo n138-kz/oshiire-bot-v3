@@ -1,3 +1,3 @@
-from alpine
-run /mnt/host/wh.sh
-entrypoint ["oshiire-bot_discord_announcements", "PATCH"]
+FROM alpine
+RUN /mnt/host/wh.sh
+ENTRYPOINT ["oshiire-bot_discord_announcements", "PATCH"]
