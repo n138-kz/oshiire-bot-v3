@@ -1,8 +1,16 @@
 services:
   oshiire-core:
-    image: alpine
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
     restart: always
     volumes:
       - type: bind
         source: ./
         target: /mnt/host
+        read_only: false
+    logging:
+      driver: json-file
+      options:
+        max-size: "1024k"
+        max-file: "10"
