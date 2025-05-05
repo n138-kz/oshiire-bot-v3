@@ -72,14 +72,20 @@
 	<form action="" method="POST">
 		<fieldset>
 			<legend>_announce.json</legend>
-			<textarea name="content" id="file_downloaded_content"></textarea>
+			<textarea name="content" id="file_content" onchange="send(this,false)" onkeyup="send(this,false)"></textarea>
+			<table class="">
+				<tr>
+					<td>Check(Format)</td>
+					<td><output id="file_check_json_status">No changes.</output></td>
+				</tr>
+			</table>
 			<script>
 				window.addEventListener('DOMContentLoaded', async ()=>{
 					url='../discord_json_announcements/_announce.json';
 					req=await fetch(url);
 					res=await req.json();
 					console.log({url:url,req:req,res:res});
-					document.querySelector('#file_downloaded_content').value=JSON.stringify(res,null,' '.repeat(4))
+					document.querySelector('#file_content').value=JSON.stringify(res,null,' '.repeat(4))
 				});
 			</script>
 		</fieldset>
