@@ -30,7 +30,7 @@
 					req=await fetch(url);
 					res=await req.json();
 					console.log({url:url,req:req,res:res});
-					document.querySelector('#file_downloaded_content').value=JSON.stringify(res,null,'    ')
+					document.querySelector('#file_downloaded_content').value=JSON.stringify(res,null,' '.repeat(4))
 				});
 			</script>
 		</fieldset>
