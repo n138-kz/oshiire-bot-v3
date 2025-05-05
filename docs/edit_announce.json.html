@@ -121,13 +121,5 @@
 			</tr>
 		</table>
 	</fieldset>
-	<fieldset>
-		<legend>$_POST</legend>
-		<textarea><?php echo htmlspecialchars(json_encode($_POST,$config['internal']['jsonparse']['encode']));?></textarea>
-	</fieldset>
-	<fieldset>
-		<legend>json</legend>
-		<textarea><?php echo htmlspecialchars(json_encode($content_json,$config['internal']['jsonparse']['encode']));?></textarea>
-	</fieldset>
 </body>
 </html>
