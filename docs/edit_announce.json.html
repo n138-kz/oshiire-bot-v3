@@ -29,8 +29,42 @@
 		}
 	</style>
 	<script>
-		function send(calledby){
+		function send(calledby,requestSend=false){
 			console.log(calledby);
+			if(requestSend){
+				alert('send(): requestSend=True');
+			}
+			let data = document.querySelector('#file_content').value;
+			console.debug(data);
+
+			document.querySelector('#file_check_json_status').innerText='Check OK.';
+			document.querySelector('#file_check_json_status').removeAttribute('class');
+			try {
+				JSON.parse(data);
+			} catch (error) {
+				if (false) {
+				} else if (error instanceof SyntaxError) {
+					console.warn('Well-known Error: SyntaxError', error.message);
+					document.querySelector('#file_check_json_status').innerText=error.message;
+					document.querySelector('#file_check_json_status').classList.add('error');
+					console.error(error);
+
+					/* lang=ja */
+					file_check_json_status=document.querySelector('#file_check_json_status').innerText;
+					file_check_json_status=file_check_json_status.replace(/[\t\f\r\n]/g, '');
+					file_check_json_status=file_check_json_status.replace(/Expected double-quoted property name in JSON at position \d+/, '無効な書式です');
+					file_check_json_status=file_check_json_status.replace(/Expected ',' or ']' after array element in JSON at position \d+/, '無効な書式です');
+					file_check_json_status=file_check_json_status.replace(/Unexpected token .* is not valid JSON/, '無効な書式です (line '+document.querySelector('#file_content').value.split(/\n/).length+' column 1)');
+					document.querySelector('#file_check_json_status').innerText=file_check_json_status;
+				} else {
+					dom=document.createElement('div');
+					dom.style.backgroundColor='#ff0000';
+					dom.style.color='#ffffff';
+					dom.innerText=`Fatal ERROR has occured. ${error.message}`;
+					document.body.prepend(dom);
+					throw error;
+				}
+			}
 		}
 	</script>
 </head>
