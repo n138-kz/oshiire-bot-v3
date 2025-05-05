@@ -108,17 +108,21 @@
 			
 		</table>
 		<script>
+			function todatetimelocalformat(time=new Date(),format='{Y}-{m}-{d} {H}:{i}:{s}'){
+				epoch=time;
+				output=format;
+				output=output.replace('{Y}', epoch.getFullYear());
+				output=output.replace('{m}', ('00'+(epoch.getMonth()+1)).slice(-2));
+				output=output.replace('{d}', ('00'+(epoch.getDate())).slice(-2));
+				output=output.replace('{H}', ('00'+(epoch.getHours())).slice(-2));
+				output=output.replace('{i}', ('00'+(epoch.getMinutes())).slice(-2));
+				output=output.replace('{s}', ('00'+(epoch.getSeconds())).slice(-2));
+				return output;
+			}
 			window.addEventListener('DOMContentLoaded', ()=>{
-				now1=new Date();
-				now='{Y}-{m}-{d}T{H}:{i}:{s}';
-				now=now.replace('{Y}', now1.getFullYear());
-				now=now.replace('{m}', ('00'+(now1.getMonth()+1)).slice(-2));
-				now=now.replace('{d}', ('00'+now1.getDate()).slice(-2));
-				now=now.replace('{H}', ('00'+now1.getHours()).slice(-2));
-				now=now.replace('{i}', ('00'+now1.getMinutes()).slice(-2));
-				now=now.replace('{s}', ('00'+now1.getSeconds()).slice(-2));
-				document.querySelector('#datetime_to_epoch11').value=now;
-				document.querySelector('#datetime_to_epoch12').value='<t:'+Math.trunc(now1.getTime()/10**3)+':f>';
+				let now=new Date();
+				document.querySelector('#datetime_to_epoch11').value=todatetimelocalformat(now,'{Y}-{m}-{d}T{H}:{i}:{s}');
+				document.querySelector('#datetime_to_epoch12').value='<t:'+Math.trunc(now.getTime()/10**3)+':f>';
 			});
 		</script>
 	</fieldset>
