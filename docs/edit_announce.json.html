@@ -23,7 +23,7 @@
 	<form action="" method="POST">
 		<fieldset>
 			<legend>_announce.json</legend>
-			<textarea name="content" id="file_downloaded_content"><?php echo json_encode(json_decode(file_get_contents($config['internal']['announce']['file']['path'])),JSON_PRETTY_PRINT|JSON_NUMERIC_CHECK|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_INVALID_UTF8_IGNORE|JSON_INVALID_UTF8_SUBSTITUTE|JSON_THROW_ON_ERROR);?></textarea>
+			<textarea name="content" id="file_downloaded_content"></textarea>
 			<script>
 				window.addEventListener('DOMContentLoaded', async ()=>{
 					url='../discord_json_announcements/_announce.json';
