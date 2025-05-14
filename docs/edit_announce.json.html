@@ -39,10 +39,12 @@
 			document.querySelector('#file_check_json_status').removeAttribute('class');
 			try {
 				JSON.parse(data);
-				if (document.forms.length==1) {
-					document.forms[0].submit();
-				} else {
-					console.warn({'forms.length':document.forms.length});
+				if(requestSend){
+					if (document.forms.length==1) {
+						document.forms[0].submit();
+					} else {
+						console.warn({'forms.length':document.forms.length});
+					}
 				}
 			} catch (error) {
 				if (false) {
