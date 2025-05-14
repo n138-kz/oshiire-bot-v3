@@ -39,6 +39,11 @@
 			document.querySelector('#file_check_json_status').removeAttribute('class');
 			try {
 				JSON.parse(data);
+				if (document.forms.length==1) {
+					document.forms[0].submit();
+				} else {
+					console.warn({'forms.length':document.forms.length});
+				}
 			} catch (error) {
 				if (false) {
 				} else if (error instanceof SyntaxError) {
@@ -67,7 +72,7 @@
 	</script>
 </head>
 <body>
-	<form action="" method="POST">
+	<form action="edit_announce.json.php" method="POST">
 		<fieldset>
 			<legend>_announce.json</legend>
 			<textarea name="content" id="file_content" onchange="send(this,false)" onkeyup="send(this,false)"></textarea>
