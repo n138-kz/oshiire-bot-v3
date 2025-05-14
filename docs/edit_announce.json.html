@@ -77,11 +77,79 @@
 	</script>
 </head>
 <body>
-	<div>
-		<span>
-			<a href="https://discord.com/oauth2/authorize?client_id=1331215597119340585&response_type=code&redirect_uri=https%3A%2F%2Fwww.n138.jp%2Foshiire-bot-v3%2Fdocs%2Fedit_announce.json.html&scope=identify+email">Signin with <img src="https://cdn.prod.website-files.com/6257adef93867e50d84d30e2/66e3d74e9607e61eeec9c91b_Logo.svg" alt=""></a>
-		</span>
-	</div>
+	<fieldset>
+		<div name="discord_authn_portal">
+			<span>
+				<a href="https://discord.com/oauth2/authorize?client_id=1331215597119340585&response_type=code&redirect_uri=https%3A%2F%2Fwww.n138.jp%2Foshiire-bot-v3%2Fdocs%2Fedit_announce.json.html&scope=identify+openid+guilds">Signin with <img src="https://cdn.prod.website-files.com/6257adef93867e50d84d30e2/66e3d74e9607e61eeec9c91b_Logo.svg" alt=""></a>
+			</span>
+		</div>
+		<div>ユーザ認証・所属ギルド確認の為、以下情報を取得します。<div id="discord_authn_scope"></div></div>
+		<script>
+			window.addEventListener('DOMContentLoaded', async ()=>{
+				let scope=get_GETarray( ( decodeURI(document.querySelectorAll('[name="discord_authn_portal"]')[0].children[0].children[0].href)+'&' ).replace(/.*\?/,'') )['scope']
+				console.debug('discord_authn_scope', scope);
+				
+				let dom_item_list = [];
+				dom_item_list[0] = document.createElement('ul');
+				dom_item_list[0].style.marginBlockStart = 'unset';
+
+				scope.split('+').map((e)=>{
+					switch (e) {
+						case 'identify':
+							e = `${e}: ユーザー名、アバター画像、バナーにアクセス`;
+						break;
+						case 'email':
+							e = `${e}: メールアドレスにアクセス`;
+						break;
+						case 'openid':
+							e = `${e}: プロフィール情報へのアクセス`;
+						break;
+						case 'guilds':
+							e = `${e}: あなたがどのサーバーに入っているか確認します`;
+						break;
+						default:
+					}
+					dom_item_list[1] = document.createElement('li');
+					dom_item_list[1].innerText = e
+					dom_item_list[0].appendChild(dom_item_list[1]);
+				});
+
+				dom_item_list = dom_item_list[0];
+				document.querySelector('#discord_authn_scope').appendChild(dom_item_list);
+			});
+		</script>
+		<script>
+			window.addEventListener('DOMContentLoaded', async ()=>{
+				let query_list = get_GETarray((decodeURI(location.search)+'&').replace(/^\?/,''));
+				query_list.code=( query_list.code === "" || query_list.code === null || query_list.code === undefined )?'':query_list.code;
+				query_list.error=( query_list.error === "" || query_list.error === null || query_list.error === undefined )?'':query_list.error;
+				query_list.error_description=( query_list.error_description === "" || query_list.error_description === null || query_list.error_description === undefined )?'':decodeURIComponent(query_list.error_description.replace(/\+/g,'%20'));
+				query_list.error_info=( query_list.error === '' || query_list.error_description === '' )?'':`${query_list.error}: ${query_list.error_description}`
+				console.debug(query_list);
+
+				let dom_item_table = [];
+				dom_item_table[0] = document.createElement('table');
+				dom_item_table[0].border= "1";
+				dom_item_table[1] = document.createElement('tbody');
+				dom_item_table[2] = document.createElement('tr');
+				dom_item_table[3] = document.createElement('th');
+				dom_item_table[3].innerText = 'error_info';
+				dom_item_table[2].appendChild(dom_item_table[3]);
+				dom_item_table[3] = document.createElement('td');
+				dom_item_table[4] = document.createElement('span');
+				dom_item_table[4].innerText = query_list.error_info;
+				dom_item_table[3].appendChild(dom_item_table[4]);
+				dom_item_table[2].appendChild(dom_item_table[3]);
+				dom_item_table[1].appendChild(dom_item_table[2]);
+				dom_item_table[0].appendChild(dom_item_table[1]);
+
+				dom_item_table = dom_item_table[0];
+				if ( !( query_list.error === '' || query_list.error_description === '' ) ) {
+					document.querySelectorAll('[name="discord_authn_portal"]')[0].appendChild(dom_item_table);
+				}
+			});
+		</script>
+	</fieldset>
 	<form action="edit_announce.json.php" method="POST">
 		<fieldset>
 			<legend>_announce.json</legend>
