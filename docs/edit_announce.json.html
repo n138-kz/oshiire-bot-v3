@@ -30,7 +30,11 @@
 	</style>
 	<script>
 		function send(calledby,requestSend=false){
-			console.log(calledby);
+			console.log({
+				calledby: calledby,
+				form: calledby.parentNode.parentNode,
+				formIsform: calledby.parentNode.parentNode.tagName.toLowerCase()=='form',
+			});
 			let data = document.querySelector('#file_content').value;
 			console.debug(data);
 
@@ -39,8 +43,8 @@
 			try {
 				JSON.parse(data);
 				if(requestSend){
-					if (document.forms.length==1) {
-						document.forms[0].submit();
+					if (calledby.parentNode.parentNode.tagName.toLowerCase()=='form') {
+						calledby.parentNode.parentNode.submit();
 					} else {
 						console.warn({'forms.length':document.forms.length});
 					}
@@ -98,10 +102,10 @@
 				});
 			</script>
 		</fieldset>
+		<fieldset>
+			<input type="button" value="check&submit" onclick="send(this,true)">
+		</fieldset>
 	</form>
-	<fieldset>
-		<input type="button" value="check&submit" onclick="send(this,true)">
-	</fieldset>
 	<fieldset>
 		<table class="">
 			<tr>
