@@ -145,4 +145,7 @@ oshiire-bot_discord_announcements PATCH
 
 1. Discordでログインにアクセス、ログイン&許可してもらう
 2. コード（`code`）付きで元のページに戻る
-3. コード（`code`）をコード（`token`）にしてユーザー情報をもらう
+   ```
+   ?code=ABCDEfghij0123456789klmnoPQRST
+   ```
+4. コード（`code`）をコード（`token`）にしてユーザー情報をもらう
