@@ -150,6 +150,6 @@ oshiire-bot_discord_announcements PATCH
    ?code=ABCDEfghij0123456789klmnoPQRST
    ```
 4. コード（`code`）をトークン（`access_token`）に変換
-   ```http
+   ```sh
    curl -X POST -H "Content-Type:application/x-www-form-urlencoded" -d "client_id=CLIENT ID&client_secret=CLIENT SECRET&grant_type=authorization_code&code=コード&redirect_uri=リダイレクト先" https://discordapp.com/api/oauth2/token
    ```
