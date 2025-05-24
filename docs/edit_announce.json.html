@@ -148,6 +148,31 @@
 					dom_item_table = dom_item_table[0];
 
 					document.querySelectorAll('[name="discord_authn_portal"]')[0].appendChild(dom_item_table);
+				} else {
+					if ( query_list.code !== '' ) {
+						try{
+							// get access_token
+							url = 'https://api.n138.jp/sso_discord/server/token.php?&redirect_url=https%3A%2F%2Fwww.n138.jp%2Foshiire-bot-v3%2Fdocs%2Fedit_announce.json.html&code='+query_list.code;
+							req=await fetch(url);
+							if(req.status>299||req.status<200){
+								throw `${req.statusText}(${req.status})`;
+							}
+							res=await req.json();
+							console.debug({url:url,req:req,res:res});
+
+							// get guild_affiliation
+							url = 'https://discordapp.com/api/users/@me/guilds';
+							req=await fetch(url,{
+							    headers: {
+								Authorization: 'Bearer '+res.oauth2_token.access_token,
+							    },
+							});
+							res=await req.json();
+							console.debug({url:url,req:req,res:res});
+						}catch(e){
+							console.error(e);
+						}
+					}
 				}
 			});
 		</script>
