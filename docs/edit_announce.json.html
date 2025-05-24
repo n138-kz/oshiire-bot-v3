@@ -124,27 +124,29 @@
 				query_list.code=( query_list.code === "" || query_list.code === null || query_list.code === undefined )?'':query_list.code;
 				query_list.error=( query_list.error === "" || query_list.error === null || query_list.error === undefined )?'':query_list.error;
 				query_list.error_description=( query_list.error_description === "" || query_list.error_description === null || query_list.error_description === undefined )?'':decodeURIComponent(query_list.error_description.replace(/\+/g,'%20'));
-				query_list.error_info=( query_list.error === '' || query_list.error_description === '' )?'':`${query_list.error}: ${query_list.error_description}`
 				console.debug(query_list);
 
-				let dom_item_table = [];
-				dom_item_table[0] = document.createElement('table');
-				dom_item_table[0].border= "1";
-				dom_item_table[1] = document.createElement('tbody');
-				dom_item_table[2] = document.createElement('tr');
-				dom_item_table[3] = document.createElement('th');
-				dom_item_table[3].innerText = 'error_info';
-				dom_item_table[2].appendChild(dom_item_table[3]);
-				dom_item_table[3] = document.createElement('td');
-				dom_item_table[4] = document.createElement('span');
-				dom_item_table[4].innerText = query_list.error_info;
-				dom_item_table[3].appendChild(dom_item_table[4]);
-				dom_item_table[2].appendChild(dom_item_table[3]);
-				dom_item_table[1].appendChild(dom_item_table[2]);
-				dom_item_table[0].appendChild(dom_item_table[1]);
+				if ( query_list.error !== '' || query_list.error_description !== '' ) {
+					query_list.error_info=( query_list.error === '' || query_list.error_description === '' )?'':`${query_list.error}: ${query_list.error_description}`
 
-				dom_item_table = dom_item_table[0];
-				if ( !( query_list.error === '' || query_list.error_description === '' ) ) {
+					let dom_item_table = [];
+					dom_item_table[0] = document.createElement('table');
+					dom_item_table[0].border= "1";
+					dom_item_table[1] = document.createElement('tbody');
+					dom_item_table[2] = document.createElement('tr');
+					dom_item_table[3] = document.createElement('th');
+					dom_item_table[3].innerText = 'error_info';
+					dom_item_table[2].appendChild(dom_item_table[3]);
+					dom_item_table[3] = document.createElement('td');
+					dom_item_table[4] = document.createElement('span');
+					dom_item_table[4].innerText = query_list.error_info;
+					dom_item_table[3].appendChild(dom_item_table[4]);
+					dom_item_table[2].appendChild(dom_item_table[3]);
+					dom_item_table[1].appendChild(dom_item_table[2]);
+					dom_item_table[0].appendChild(dom_item_table[1]);
+
+					dom_item_table = dom_item_table[0];
+
 					document.querySelectorAll('[name="discord_authn_portal"]')[0].appendChild(dom_item_table);
 				}
 			});
