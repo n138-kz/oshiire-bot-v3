@@ -142,7 +142,7 @@ oshiire-bot_discord_announcements PATCH
 > 一覧に書かれているアドレスそのまま貼り付ければ動作するはずです。  
 > `curl -s -X DELETE -H 'Content-Type: application/json' https://discord.com/api/webhooks/{webhook-id}/{webhook-token}/messages/{message-id}`
 
-[edit_announce.json](/docs/edit_announce.json.html) auth workflow
+## [edit_announce.json](/docs/edit_announce.json.html) auth workflow
 
 1. Discordでログインにアクセス、ログイン&許可してもらう
 2. コード（`code`）付きで元のページに戻る
