@@ -167,7 +167,7 @@
 					url='../discord_json_announcements/_announce.json';
 					req=await fetch(url);
 					res=await req.json();
-					console.log({url:url,req:req,res:res});
+					console.debug({url:url,req:req,res:res});
 					document.querySelector('#file_content').value=JSON.stringify(res,null,' '.repeat(4))
 				});
 			</script>
