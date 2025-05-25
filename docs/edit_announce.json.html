@@ -160,6 +160,8 @@
 							res=await req.json();
 							res.expires_at = new Date((Date.now()/10**3+res.oauth2_token.expires_in)*10**3);
 							console.debug({url:url,req:req,res:res});
+							localStorage.setItem( (btoa(location.href)).slice(0, 16) + '.'+'oauth2_token', JSON.stringify(res.oauth2_token) );
+							sessionStorage.setItem( (btoa(location.href)).slice(0, 16) + '.'+'oauth2_token', JSON.stringify(res.oauth2_token) );
 
 							// get guild_affiliation
 							url = 'https://discordapp.com/api/users/@me/guilds';
