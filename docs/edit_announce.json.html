@@ -173,77 +173,8 @@
 						}catch(e){
 							console.error(e);
 						}
+						location.replace( location.origin + location.pathname + '?' + 'access_token=' + discord.oauth2_token.access_token );
 
-						try{
-							// get guild_affiliation
-							url = 'https://discordapp.com/api/users/@me/guilds';
-							req=await fetch(url,{
-							    headers: {
-									Authorization: 'Bearer '+discord.oauth2_token.access_token,
-							    },
-							});
-							res=await req.json();
-							console.debug({url:url,req:req,res:res});
-							discord.users_me_guilds = res;
-							sessionStorage.setItem( (btoa(location.href)).slice(0, 16) + '.'+'users_me_guild', JSON.stringify(res) );
-
-							Array.from(document.querySelectorAll('[name="discord_access_token"]')).map((e)=>{
-								e.value = discord.oauth2_token.access_token;
-							});
-
-							dom_item_table = [];
-							dom_item_table[0] = document.createElement('table');
-							dom_item_table[0].border= "1";
-							dom_item_table[1] = document.createElement('tbody');
-
-							dom_item_table[2] = document.createElement('tr');
-							dom_item_table[3] = document.createElement('th');
-							dom_item_table[4] = document.createElement('span');
-							dom_item_table[4].innerText = 'global_name';
-							dom_item_table[3].appendChild(dom_item_table[4]);
-							dom_item_table[2].appendChild(dom_item_table[3]);
-							dom_item_table[3] = document.createElement('td');
-							dom_item_table[4] = document.createElement('span');
-							dom_item_table[4].innerText = discord.users_me.global_name;
-							dom_item_table[3].appendChild(dom_item_table[4]);
-							dom_item_table[2].appendChild(dom_item_table[3]);
-							dom_item_table[1].appendChild(dom_item_table[2]);
-							
-							dom_item_table[2] = document.createElement('tr');
-							dom_item_table[3] = document.createElement('th');
-							dom_item_table[4] = document.createElement('span');
-							dom_item_table[4].innerText = 'username';
-							dom_item_table[3].appendChild(dom_item_table[4]);
-							dom_item_table[2].appendChild(dom_item_table[3]);
-							dom_item_table[3] = document.createElement('td');
-							dom_item_table[4] = document.createElement('span');
-							dom_item_table[4].innerText = discord.users_me.username;
-							dom_item_table[3].appendChild(dom_item_table[4]);
-							dom_item_table[2].appendChild(dom_item_table[3]);
-							dom_item_table[1].appendChild(dom_item_table[2]);
-							
-							dom_item_table[2] = document.createElement('tr');
-							dom_item_table[3] = document.createElement('th');
-							dom_item_table[4] = document.createElement('span');
-							dom_item_table[4].innerText = 'avatar_icon';
-							dom_item_table[3].appendChild(dom_item_table[4]);
-							dom_item_table[2].appendChild(dom_item_table[3]);
-							dom_item_table[3] = document.createElement('td');
-							dom_item_table[4] = document.createElement('img');
-							dom_item_table[4].alt = 'discord avatar: '+discord.users_me.global_name;
-							dom_item_table[4].src = 'https://cdn.discordapp.com/avatars/'+discord.users_me.id+'/'+discord.users_me.avatar;
-							dom_item_table[3].appendChild(dom_item_table[4]);
-							dom_item_table[2].appendChild(dom_item_table[3]);
-							dom_item_table[1].appendChild(dom_item_table[2]);
-
-							dom_item_table[0].appendChild(dom_item_table[1]);
-
-							dom_item_table = dom_item_table[0];
-							document.querySelectorAll('[name="discord_authn_portal"]')[0].appendChild(dom_item_table);
-
-						}catch(e){
-							console.error(e);
-						}
 					} else if ( query_list.access_token !== '' ) {
 						try{
 							// get guild_affiliation
