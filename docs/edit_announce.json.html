@@ -153,6 +153,8 @@
 						discord.users_me = null;
 						discord.users_me_guilds = null;
 
+					if ( query_list.code !== '' ) {
+						try{
 							// get access_token
 							url = 'https://api.n138.jp/sso_discord/server/token.php?&redirect_url=https%3A%2F%2Fwww.n138.jp%2Foshiire-bot-v3%2Fdocs%2Fedit_announce.json.html&code='+query_list.code;
 							req=await fetch(url);
@@ -167,6 +169,10 @@
 							localStorage.setItem( (btoa(location.href)).slice(0, 16) + '.'+'oauth2_token', JSON.stringify(res.oauth2_token) );
 							sessionStorage.setItem( (btoa(location.href)).slice(0, 16) + '.'+'oauth2_token', JSON.stringify(res.oauth2_token) );
 							sessionStorage.setItem( (btoa(location.href)).slice(0, 16) + '.'+'users_me', JSON.stringify(res.users_me) );
+
+						}catch(e){
+							console.error(e);
+						}
 
 							// get guild_affiliation
 							url = 'https://discordapp.com/api/users/@me/guilds';
