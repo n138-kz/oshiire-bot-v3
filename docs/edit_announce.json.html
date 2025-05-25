@@ -301,6 +301,28 @@
 						}catch(e){
 							console.error(e);
 						}
+					} else {
+						try {
+							internalStorage = {
+								localStorage: {
+									oauth2_token: JSON.parse(localStorage.getItem( (btoa(location.href)).slice(0, 16) + '.'+'oauth2_token')),
+								},
+								sessionStorage: {
+									oauth2_token: JSON.parse(sessionStorage.getItem( (btoa(location.href)).slice(0, 16) + '.'+'oauth2_token')),
+								},
+							};
+							if (false) {
+							} else if ( internalStorage.sessionStorage.oauth2_token.access_token !== '' ) {
+								sessionStorage.clear();
+								location.replace( location.origin + location.pathname + '?' + 'access_token=' + internalStorage.sessionStorage.oauth2_token.access_token );
+							} else if ( internalStorage.localStorage.oauth2_token.access_token !== '' ) {
+								sessionStorage.clear();
+								localStorage.clear();
+								location.replace( location.origin + location.pathname + '?' + 'access_token=' + internalStorage.localStorage.oauth2_token.access_token );
+							}
+						} catch (e) {
+							console.warn(e);
+						}
 					}
 				}
 			});
