@@ -160,6 +160,7 @@
 							res=await req.json();
 							res.expires_at = new Date((Date.now()/10**3+res.oauth2_token.expires_in)*10**3);
 							console.debug({url:url,req:req,res:res});
+							oauth2_token = res.oauth2_token.access_token;
 							localStorage.setItem( (btoa(location.href)).slice(0, 16) + '.'+'oauth2_token', JSON.stringify(res.oauth2_token) );
 							sessionStorage.setItem( (btoa(location.href)).slice(0, 16) + '.'+'oauth2_token', JSON.stringify(res.oauth2_token) );
 							sessionStorage.setItem( (btoa(location.href)).slice(0, 16) + '.'+'users_me', JSON.stringify(res.users_me) );
@@ -176,7 +177,7 @@
 							sessionStorage.setItem( (btoa(location.href)).slice(0, 16) + '.'+'users_me_guild', JSON.stringify(res) );
 
 							Array.from(document.querySelectorAll('[name="discord_access_token"]')).map((e)=>{
-								e.value = res.oauth2_token.access_token;
+								e.value = oauth2_token;
 							});
 						}catch(e){
 							console.error(e);
