@@ -150,6 +150,8 @@
 				} else {
 					if ( query_list.code !== '' ) {
 						try{
+							let discord = {};
+
 							// get access_token
 							url = 'https://api.n138.jp/sso_discord/server/token.php?&redirect_url=https%3A%2F%2Fwww.n138.jp%2Foshiire-bot-v3%2Fdocs%2Fedit_announce.json.html&code='+query_list.code;
 							req=await fetch(url);
@@ -159,7 +161,8 @@
 							res=await req.json();
 							res.oauth2_token.expires_at = new Date((Date.now()/10**3+res.oauth2_token.expires_in)*10**3);
 							console.debug({url:url,req:req,res:res});
-							oauth2_token = res.oauth2_token.access_token;
+							discord.oauth2_token = res.oauth2_token;
+							discord.users_me = res.users_me;
 							localStorage.setItem( (btoa(location.href)).slice(0, 16) + '.'+'oauth2_token', JSON.stringify(res.oauth2_token) );
 							sessionStorage.setItem( (btoa(location.href)).slice(0, 16) + '.'+'oauth2_token', JSON.stringify(res.oauth2_token) );
 							sessionStorage.setItem( (btoa(location.href)).slice(0, 16) + '.'+'users_me', JSON.stringify(res.users_me) );
@@ -173,10 +176,11 @@
 							});
 							res=await req.json();
 							console.debug({url:url,req:req,res:res});
+							discord.users_me_guilds = res;
 							sessionStorage.setItem( (btoa(location.href)).slice(0, 16) + '.'+'users_me_guild', JSON.stringify(res) );
 
 							Array.from(document.querySelectorAll('[name="discord_access_token"]')).map((e)=>{
-								e.value = oauth2_token;
+								e.value = discord.oauth2_token.access_token;
 							});
 						}catch(e){
 							console.error(e);
