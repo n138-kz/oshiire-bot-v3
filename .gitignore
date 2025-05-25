@@ -7,6 +7,8 @@ assets/
 # Temporary files
 *.tmp
 *.dat
+detail.json
+result.json
 
 # Secret files
 *.env
