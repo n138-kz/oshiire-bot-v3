@@ -1,6 +1,7 @@
 <?php session_start([
 	'name'=>'session_id'
 ]);
+date_default_timezone_set('Asia/Tokyo');
 
 $_SESSION['user_id']=isset($_SESSION['user_id'])?$_SESSION['user_id']:null;
 
