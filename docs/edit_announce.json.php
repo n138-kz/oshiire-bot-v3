@@ -70,6 +70,13 @@ $discord_post_embed = [
 	'color' => hexdec('ffa500'),
 	'fields' => [],
 ];
+$discord_post_payloadjson = [
+	'avatar_url' => 'https://cdn.prod.website-files.com/6257adef93867e50d84d30e2/66e3d80db9971f10a9757c99_Symbol.svg',
+	'username' => '<STRING>',
+	'embeds' => [],
+];
+$discord_post_embed['fields'] = $discord_post_fields;
+$discord_post_payloadjson['embeds'] = $discord_post_embed;
 
 file_put_contents($config['internal']['announce']['file']['path'].'.unsafe.json', json_encode($content_json, $config['internal']['jsonparse']['encode']), LOCK_EX);
 http_response_code(302);
