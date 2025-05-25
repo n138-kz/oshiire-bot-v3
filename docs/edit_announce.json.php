@@ -57,6 +57,13 @@ if(!$content_json){
 }
 
 $discord_webhook_url = $config['external']['discord']['webhook']['notice'];
+$discord_post_fields = [
+	[
+		'name' => '',
+		'value' => '',
+		'inline' => false,
+	],
+];
 
 file_put_contents($config['internal']['announce']['file']['path'].'.unsafe.json', json_encode($content_json, $config['internal']['jsonparse']['encode']), LOCK_EX);
 http_response_code(302);
