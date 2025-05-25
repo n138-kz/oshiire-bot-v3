@@ -98,5 +98,5 @@ $curl_error=($curl_error=='')?null:$curl_error;
 
 file_put_contents($config['internal']['announce']['file']['path'].'.unsafe.json', json_encode($content_json, $config['internal']['jsonparse']['encode']), LOCK_EX);
 http_response_code(302);
-header('location: '.$config['internal']['redirect']['url']);
+header('location: '.$config['internal']['redirect']['url'].'?access_token='.$discord_access_token.'&uuid='.$_SERVER['UNIQUE_ID']);
 exit(0);
