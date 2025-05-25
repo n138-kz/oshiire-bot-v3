@@ -103,6 +103,7 @@ $curl_result=[
 ];
 file_put_contents('detail.json', json_encode($curl_result, $config['internal']['jsonparse']['encode']), LOCK_EX);
 
+# BODY
 $content=isset($_POST['content'])?$_POST['content']:null;
 $content_json=json_decode($content,true);
 
@@ -151,6 +152,11 @@ $curl_error=curl_error($curl_req);
 $curl_info=curl_getinfo($curl_req);
 $curl_result=($curl_result=='')?null:$curl_result;
 $curl_error=($curl_error=='')?null:$curl_error;
+$curl_result=[
+	'result' => $curl_result,
+	'error'  => $curl_error,
+	'info'   => $curl_info,
+];
 
 file_put_contents($config['internal']['announce']['file']['path'].'.unsafe.json', json_encode($content_json, $config['internal']['jsonparse']['encode']), LOCK_EX);
 http_response_code(302);
