@@ -180,7 +180,7 @@
 							url = 'https://discordapp.com/api/users/@me/guilds';
 							req=await fetch(url,{
 							    headers: {
-									Authorization: 'Bearer '+discord.oauth2_token.access_token,
+									Authorization: 'Bearer '+res.oauth2_token.access_token,
 							    },
 							});
 							res=await req.json();
