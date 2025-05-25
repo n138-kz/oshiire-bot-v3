@@ -129,7 +129,7 @@
 				if ( query_list.error !== '' || query_list.error_description !== '' ) {
 					query_list.error_info=( query_list.error === '' || query_list.error_description === '' )?'':`${query_list.error}: ${query_list.error_description}`
 
-					let dom_item_table = [];
+					dom_item_table = [];
 					dom_item_table[0] = document.createElement('table');
 					dom_item_table[0].border= "1";
 					dom_item_table[1] = document.createElement('tbody');
