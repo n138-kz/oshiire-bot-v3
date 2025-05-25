@@ -200,6 +200,19 @@
 							dom_item_table[3].appendChild(dom_item_table[4]);
 							dom_item_table[2].appendChild(dom_item_table[3]);
 							dom_item_table[1].appendChild(dom_item_table[2]);
+							
+							dom_item_table[2] = document.createElement('tr');
+							dom_item_table[3] = document.createElement('th');
+							dom_item_table[4] = document.createElement('span');
+							dom_item_table[4].innerText = 'username';
+							dom_item_table[3].appendChild(dom_item_table[4]);
+							dom_item_table[2].appendChild(dom_item_table[3]);
+							dom_item_table[3] = document.createElement('td');
+							dom_item_table[4] = document.createElement('span');
+							dom_item_table[4].innerText = discord.users_me.username;
+							dom_item_table[3].appendChild(dom_item_table[4]);
+							dom_item_table[2].appendChild(dom_item_table[3]);
+							dom_item_table[1].appendChild(dom_item_table[2]);
 
 							dom_item_table[0].appendChild(dom_item_table[1]);
 
