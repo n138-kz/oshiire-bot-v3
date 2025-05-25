@@ -36,6 +36,7 @@ $config['internal']['announce']['file']['path']=__DIR__.'/../discord_json_announ
 $config['internal']['announce']['file']['path']=is_file($config['internal']['announce']['file']['path'])?realpath($config['internal']['announce']['file']['path']):'';
 $config['internal']['jsonparse']['encode']=JSON_PRETTY_PRINT|JSON_NUMERIC_CHECK|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_INVALID_UTF8_IGNORE|JSON_INVALID_UTF8_SUBSTITUTE|JSON_THROW_ON_ERROR;
 $config['internal']['redirect']['url']='./'.preg_replace('/\.php$/', '.html', basename(__FILE__));
+$config['external']['discord']['webhook']['notice']=(isset($config['external']['discord']['webhook']['notice'])&&$config['external']['discord']['webhook']['notice']!=='')?$config['external']['discord']['webhook']['notice']:'';
 
 if(mb_strtolower($_SERVER['REQUEST_METHOD'])!='post'){
 	http_response_code(302);
@@ -52,6 +53,7 @@ if(!$content_json){
 	exit(1);
 }
 
+$discord_webhook_url = $config['external']['discord']['webhook']['notice'];
 
 file_put_contents($config['internal']['announce']['file']['path'].'.unsafe.json', json_encode($content_json, $config['internal']['jsonparse']['encode']), LOCK_EX);
 http_response_code(302);
