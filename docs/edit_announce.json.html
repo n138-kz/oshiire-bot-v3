@@ -158,6 +158,7 @@
 								throw `${req.statusText}(${req.status})`;
 							}
 							res=await req.json();
+							res.expires_at = new Date((Date.now()/10**3+res.oauth2_token.expires_in)*10**3);
 							console.debug({url:url,req:req,res:res});
 
 							// get guild_affiliation
