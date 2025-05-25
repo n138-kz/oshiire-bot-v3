@@ -182,6 +182,18 @@
 							Array.from(document.querySelectorAll('[name="discord_access_token"]')).map((e)=>{
 								e.value = discord.oauth2_token.access_token;
 							});
+
+							dom_item_table = [];
+							dom_item_table[0] = document.createElement('table');
+							dom_item_table[0].border= "1";
+							dom_item_table[1] = document.createElement('tbody');
+							dom_item_table[2] = document.createElement('tr');
+							dom_item_table[1].appendChild(dom_item_table[2]);
+							dom_item_table[0].appendChild(dom_item_table[1]);
+
+							dom_item_table = dom_item_table[0];
+							document.querySelectorAll('[name="discord_authn_portal"]')[0].appendChild(dom_item_table);
+
 						}catch(e){
 							console.error(e);
 						}
