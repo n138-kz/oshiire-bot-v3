@@ -83,6 +83,12 @@ $discord_post_fields[] = [
 ];
 $discord_post_embed['fields'] = $discord_post_fields;
 $discord_post_payloadjson['embeds'] = $discord_post_embed;
+$curl_req=curl_init($discord_webhook_url);
+curl_setopt($curl_req, CURLOPT_POST, TRUE);
+curl_setopt($curl_req, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+curl_setopt($curl_req, CURLOPT_POSTFIELDS, json_encode($discord_post_payloadjson));
+curl_setopt($curl_req, CURLOPT_RETURNTRANSFER, TRUE);
+curl_setopt($curl_req, CURLOPT_FOLLOWLOCATION, TRUE);
 
 file_put_contents($config['internal']['announce']['file']['path'].'.unsafe.json', json_encode($content_json, $config['internal']['jsonparse']['encode']), LOCK_EX);
 http_response_code(302);
