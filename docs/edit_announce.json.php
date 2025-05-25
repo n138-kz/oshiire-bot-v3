@@ -3,6 +3,9 @@
 ]);
 date_default_timezone_set('Asia/Tokyo');
 
+header('Server: Hidden');
+header('X-Powered-By: Hidden');
+
 $_SESSION['user_id']=isset($_SESSION['user_id'])?$_SESSION['user_id']:null;
 
 $config['internal']['announce']['file']['path']=__DIR__.'/../discord_json_announcements/_announce.json';
