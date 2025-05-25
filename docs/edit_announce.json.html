@@ -148,10 +148,10 @@
 					dom_item_table = dom_item_table[0];
 					document.querySelectorAll('[name="discord_authn_portal"]')[0].appendChild(dom_item_table);
 				} else {
-					if (false) {
-					} else if ( query_list.code !== '' ) {
-						try{
-							let discord = {};
+					let discord = {};
+						discord.oauth2_token = null;
+						discord.users_me = null;
+						discord.users_me_guilds = null;
 
 							// get access_token
 							url = 'https://api.n138.jp/sso_discord/server/token.php?&redirect_url=https%3A%2F%2Fwww.n138.jp%2Foshiire-bot-v3%2Fdocs%2Fedit_announce.json.html&code='+query_list.code;
