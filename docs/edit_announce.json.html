@@ -175,6 +175,9 @@
 							console.debug({url:url,req:req,res:res});
 							sessionStorage.setItem( (btoa(location.href)).slice(0, 16) + '.'+'users_me_guild', JSON.stringify(res) );
 
+							Array.from(document.querySelectorAll('[name="discord_access_token"]')).map((e)=>{
+								e.value = res.oauth2_token.access_token;
+							});
 						}catch(e){
 							console.error(e);
 						}
@@ -205,6 +208,7 @@
 		</fieldset>
 		<fieldset>
 			<input type="button" value="check&submit" onclick="send(this,true)">
+			<input type="hidden" name="discord_access_token">
 		</fieldset>
 	</form>
 	<fieldset>
