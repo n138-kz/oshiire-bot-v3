@@ -173,7 +173,9 @@
 						}catch(e){
 							console.error(e);
 						}
-
+					}
+					if ( query_list.access_token !== '' || discord.oauth2_token.access_token !== '' ) {
+						try {
 							// get guild_affiliation
 							url = 'https://discordapp.com/api/users/@me/guilds';
 							req=await fetch(url,{
@@ -243,7 +245,6 @@
 						}catch(e){
 							console.error(e);
 						}
-					} else if ( query_list.access_token !== '' ) {
 					}
 				}
 			});
