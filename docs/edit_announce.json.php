@@ -76,6 +76,11 @@ $discord_post_payloadjson = [
 	'username' => '<STRING>',
 	'embeds' => [],
 ];
+$discord_post_fields[] = [
+	'name' => '$content_json',
+	'value' => json_encode($content_json),
+	'inline' => false,
+];
 $discord_post_embed['fields'] = $discord_post_fields;
 $discord_post_payloadjson['embeds'] = $discord_post_embed;
 
