@@ -29,6 +29,7 @@
     - [動作環境](#動作環境)
     - [初回のみ](#初回のみ)
     - [2回目以降](#2回目以降)
+  - [edit\_announce.json auth workflow](#edit_announcejson-auth-workflow)
 
 ## Github RestAPI
 
@@ -44,6 +45,7 @@ GET https://api.github.com/repos/n138-kz/oshiire-bot-v3
 - [![](https://www.google.com/s2/favicons?size=64&domain=https://github.com)oshiire-bot-v2](https://github.com/n138-kz/oshiire-bot-v2/)
 - [![](https://www.google.com/s2/favicons?size=64&domain=https://github.com)oshiire-bot-v3](https://github.com/n138-kz/oshiire-bot-v3/)
 - [![](https://www.google.com/s2/favicons?size=64&domain=https://github.com)sso_discord](https://github.com/n138-kz/sso_discord)
+- [![](https://www.google.com/s2/favicons?size=64&domain=https://github.com)http_post](https://github.com/n138-kz/http_post)
 
 ## License
 
