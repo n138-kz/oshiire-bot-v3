@@ -177,20 +177,62 @@
 
 					} else if ( query_list.access_token !== '' ) {
 						try{
+							// get user-me
+							let xhr = {};
+							xhr.userme = {
+								url: 'https://discordapp.com/api/users/@me',
+							};
+							xhr.userme.req=await fetch(await xhr.userme.url,{
+								headers: {
+									Authorization: 'Bearer '+query_list.access_token,
+								},
+							});
+							if(xhr.userme.req.status>299||xhr.userme.req.status<200){
+								throw `${xhr.userme.req.statusText}(${xhr.userme.req.status})`;
+							}
+							xhr.userme.res=await xhr.userme.req.json();
+							console.debug({xhr:xhr.userme, q:query_list});
+							Object.assign({
+								accent_color: null,
+								avatar: null,
+								avatar_decoration_data: null,
+								banner: null,
+								banner_color: null,
+								clan: null,
+								collectibles: null,
+								discriminator: null,
+								email: null,
+								flags: null,
+								global_name: null,
+								id: null,
+								locale: null,
+								mfa_enabled: null,
+								premium_type: null,
+								primary_guild: null,
+								public_flags: null,
+								username: null,
+								verified: null,
+							},xhr.userme.res);
+							discord.users_me = xhr.userme.res;
+							sessionStorage.setItem( (btoa(location.href)).slice(0, 16) + '.'+'users_me', JSON.stringify(xhr.userme.res) );
+							
 							// get guild_affiliation
 							url = 'https://discordapp.com/api/users/@me/guilds';
 							req=await fetch(url,{
-							    headers: {
+								headers: {
 									Authorization: 'Bearer '+query_list.access_token,
-							    },
+								},
 							});
+							if(req.status>299||req.status<200){
+								throw `${req.statusText}(${req.status})`;
+							}
 							res=await req.json();
 							console.debug({url:url,req:req,res:res});
 							discord.users_me_guilds = res;
 							sessionStorage.setItem( (btoa(location.href)).slice(0, 16) + '.'+'users_me_guild', JSON.stringify(res) );
 
 							Array.from(document.querySelectorAll('[name="discord_access_token"]')).map((e)=>{
-								e.value = discord.oauth2_token.access_token;
+								e.value = query_list.access_token;
 							});
 
 							dom_item_table = [];
