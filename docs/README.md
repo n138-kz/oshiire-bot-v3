@@ -29,6 +29,7 @@
     - [動作環境](#動作環境)
     - [初回のみ](#初回のみ)
     - [2回目以降](#2回目以降)
+  - [edit\_announce.json auth workflow](#edit_announcejson-auth-workflow)
 
 ## Github RestAPI
 
