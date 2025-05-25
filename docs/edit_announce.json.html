@@ -235,55 +235,23 @@
 								e.value = query_list.access_token;
 							});
 
-							dom_item_table = [];
-							dom_item_table[0] = document.createElement('table');
-							dom_item_table[0].border= "1";
-							dom_item_table[1] = document.createElement('tbody');
+							// declare discord userinfo
+							discord_userinfo = {};
+							discord_userinfo.name = ( discord.users_me.global_name === '' || discord.users_me.global_name === null || discord.users_me.global_name === undefined ) ? discord.users_me.username : discord.users_me.global_name;
+							discord_userinfo.avatar = 'https://cdn.discordapp.com/avatars/'+discord.users_me.id+'/'+discord.users_me.avatar;
 
-							dom_item_table[2] = document.createElement('tr');
-							dom_item_table[3] = document.createElement('th');
-							dom_item_table[4] = document.createElement('span');
-							dom_item_table[4].innerText = 'global_name';
-							dom_item_table[3].appendChild(dom_item_table[4]);
-							dom_item_table[2].appendChild(dom_item_table[3]);
-							dom_item_table[3] = document.createElement('td');
-							dom_item_table[4] = document.createElement('span');
-							dom_item_table[4].innerText = discord.users_me.global_name;
-							dom_item_table[3].appendChild(dom_item_table[4]);
-							dom_item_table[2].appendChild(dom_item_table[3]);
-							dom_item_table[1].appendChild(dom_item_table[2]);
-							
-							dom_item_table[2] = document.createElement('tr');
-							dom_item_table[3] = document.createElement('th');
-							dom_item_table[4] = document.createElement('span');
-							dom_item_table[4].innerText = 'username';
-							dom_item_table[3].appendChild(dom_item_table[4]);
-							dom_item_table[2].appendChild(dom_item_table[3]);
-							dom_item_table[3] = document.createElement('td');
-							dom_item_table[4] = document.createElement('span');
-							dom_item_table[4].innerText = discord.users_me.username;
-							dom_item_table[3].appendChild(dom_item_table[4]);
-							dom_item_table[2].appendChild(dom_item_table[3]);
-							dom_item_table[1].appendChild(dom_item_table[2]);
-							
-							dom_item_table[2] = document.createElement('tr');
-							dom_item_table[3] = document.createElement('th');
-							dom_item_table[4] = document.createElement('span');
-							dom_item_table[4].innerText = 'avatar_icon';
-							dom_item_table[3].appendChild(dom_item_table[4]);
-							dom_item_table[2].appendChild(dom_item_table[3]);
-							dom_item_table[3] = document.createElement('td');
-							dom_item_table[4] = document.createElement('img');
-							dom_item_table[4].alt = 'discord avatar: '+discord.users_me.global_name;
-							dom_item_table[4].src = 'https://cdn.discordapp.com/avatars/'+discord.users_me.id+'/'+discord.users_me.avatar;
-							dom_item_table[3].appendChild(dom_item_table[4]);
-							dom_item_table[2].appendChild(dom_item_table[3]);
-							dom_item_table[1].appendChild(dom_item_table[2]);
-
-							dom_item_table[0].appendChild(dom_item_table[1]);
-
-							dom_item_table = dom_item_table[0];
-							document.querySelectorAll('[name="discord_authn_portal"]')[0].appendChild(dom_item_table);
+							dom_item = {};
+							dom_item['root'] = document.createElement('div');
+							dom_item['item1'] = document.createElement('img');
+							dom_item['item1'].src = 'https://cdn.discordapp.com/avatars/'+discord.users_me.id+'/'+discord.users_me.avatar;
+							dom_item['item1'].alt = 'discord avatar: '+discord.users_me.global_name;
+							dom_item['item1'].style.maxHeight = '1em';
+							dom_item['root'].appendChild(dom_item['item1']);
+							dom_item['item1'] = document.createElement('span');
+							dom_item['item1'].innerText = discord_userinfo.name;
+							dom_item['root'].appendChild(dom_item['item1']);
+							dom_item = dom_item['root'];
+							document.querySelectorAll('[name="discord_authn_portal"]')[0].appendChild(dom_item);
 
 						}catch(e){
 							console.error(e);
