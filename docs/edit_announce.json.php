@@ -64,6 +64,12 @@ $discord_post_fields = [
 		'inline' => false,
 	],
 ];
+$discord_post_embed = [
+	'title' => basename(__FILE__),
+	'url' => $config['internal']['redirect']['url'],
+	'color' => hexdec('ffa500'),
+	'fields' => [],
+];
 
 file_put_contents($config['internal']['announce']['file']['path'].'.unsafe.json', json_encode($content_json, $config['internal']['jsonparse']['encode']), LOCK_EX);
 http_response_code(302);
