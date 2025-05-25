@@ -162,6 +162,7 @@
 							console.debug({url:url,req:req,res:res});
 							localStorage.setItem( (btoa(location.href)).slice(0, 16) + '.'+'oauth2_token', JSON.stringify(res.oauth2_token) );
 							sessionStorage.setItem( (btoa(location.href)).slice(0, 16) + '.'+'oauth2_token', JSON.stringify(res.oauth2_token) );
+							sessionStorage.setItem( (btoa(location.href)).slice(0, 16) + '.'+'users_me', JSON.stringify(res.users_me) );
 
 							// get guild_affiliation
 							url = 'https://discordapp.com/api/users/@me/guilds';
