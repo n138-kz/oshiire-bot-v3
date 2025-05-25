@@ -56,6 +56,7 @@ if(!$content_json){
 	exit(1);
 }
 
+# push to discord
 $discord_webhook_url = $config['external']['discord']['webhook']['notice'];
 $discord_post_fields = [
 	[
