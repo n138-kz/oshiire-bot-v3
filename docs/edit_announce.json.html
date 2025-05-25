@@ -298,6 +298,13 @@
 							dom_item = dom_item['root'];
 							document.querySelectorAll('[name="discord_authn_portal"]')[0].appendChild(dom_item);
 
+							// Load _announce.json
+							url='../discord_json_announcements/_announce.json';
+							req=await fetch(url);
+							res=await req.json();
+							console.debug({url:url,req:req,res:res});
+							document.querySelector('#file_content').value=JSON.stringify(res,null,' '.repeat(4))
+
 						}catch(e){
 							console.error(e);
 						}
@@ -338,15 +345,6 @@
 					<td><output id="file_check_json_status">No changes.</output></td>
 				</tr>
 			</table>
-			<script>
-				window.addEventListener('DOMContentLoaded', async ()=>{
-					url='../discord_json_announcements/_announce.json';
-					req=await fetch(url);
-					res=await req.json();
-					console.debug({url:url,req:req,res:res});
-					document.querySelector('#file_content').value=JSON.stringify(res,null,' '.repeat(4))
-				});
-			</script>
 		</fieldset>
 		<fieldset>
 			<input type="button" value="check&submit" onclick="send(this,true)">
