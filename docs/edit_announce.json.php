@@ -20,7 +20,7 @@ if(!file_exists($config['internal']['config']['filename'])){
 	echo json_encode($result['result'],JSON_PRETTY_PRINT|JSON_INVALID_UTF8_IGNORE|JSON_UNESCAPED_UNICODE);
 	exit(1);
 }
-if(!is_readable($config)){
+if(!is_readable($config['internal']['config']['filename'])){
 	http_response_code(500);
 	$result['result']=[
 		'id'=>1,
