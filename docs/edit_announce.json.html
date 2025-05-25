@@ -278,13 +278,16 @@
 
 							dom_item = {};
 							dom_item['root'] = document.createElement('div');
-							dom_item['item1'] = document.createElement('img');
-							dom_item['item1'].src = 'https://cdn.discordapp.com/avatars/'+discord.users_me.id+'/'+discord.users_me.avatar;
-							dom_item['item1'].alt = 'discord avatar: '+discord.users_me.global_name;
-							dom_item['item1'].style.maxHeight = '1em';
-							dom_item['root'].appendChild(dom_item['item1']);
-							dom_item['item1'] = document.createElement('span');
-							dom_item['item1'].innerText = discord_userinfo.name;
+							dom_item['item1'] = document.createElement('a');
+							dom_item['item1'].href = 'https://discord.com/channels/@me';
+							dom_item['item2'] = document.createElement('img');
+							dom_item['item2'].src = 'https://cdn.discordapp.com/avatars/'+discord.users_me.id+'/'+discord.users_me.avatar;
+							dom_item['item2'].alt = 'discord avatar: '+discord.users_me.global_name;
+							dom_item['item2'].style.maxHeight = '1em';
+							dom_item['item1'].appendChild(dom_item['item2']);
+							dom_item['item2'] = document.createElement('span');
+							dom_item['item2'].innerText = discord_userinfo.name;
+							dom_item['item1'].appendChild(dom_item['item2']);
 							dom_item['root'].appendChild(dom_item['item1']);
 							dom_item = dom_item['root'];
 							document.querySelectorAll('[name="discord_authn_portal"]')[0].appendChild(dom_item);
