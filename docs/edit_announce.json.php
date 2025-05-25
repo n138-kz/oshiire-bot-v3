@@ -85,6 +85,24 @@ foreach($list as $k => $v) {
 }
 $discord_userme = $curl_result['result'];
 
+# Guild(Discord Server)
+$curl_req=curl_init('https://discordapp.com/api/users/@me/guilds');
+curl_setopt($curl_req, CURLOPT_HTTPHEADER, ['Authorization: Bearer '.$discord_access_token]);
+curl_setopt($curl_req, CURLOPT_RETURNTRANSFER, TRUE);
+curl_setopt($curl_req, CURLOPT_FOLLOWLOCATION, TRUE);
+$curl_result=curl_exec($curl_req);
+$curl_result=json_decode($curl_result, TRUE);
+$curl_error=curl_error($curl_req);
+$curl_info=curl_getinfo($curl_req);
+$curl_result=($curl_result=='')?null:$curl_result;
+$curl_error=($curl_error=='')?null:$curl_error;
+$curl_result=[
+	'result' => $curl_result,
+	'error'  => $curl_error,
+	'info'   => $curl_info,
+];
+file_put_contents('detail.json', json_encode($curl_result, $config['internal']['jsonparse']['encode']), LOCK_EX);
+
 $content=isset($_POST['content'])?$_POST['content']:null;
 $content_json=json_decode($content,true);
 
