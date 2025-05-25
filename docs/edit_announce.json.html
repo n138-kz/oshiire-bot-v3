@@ -213,6 +213,20 @@
 							dom_item_table[3].appendChild(dom_item_table[4]);
 							dom_item_table[2].appendChild(dom_item_table[3]);
 							dom_item_table[1].appendChild(dom_item_table[2]);
+							
+							dom_item_table[2] = document.createElement('tr');
+							dom_item_table[3] = document.createElement('th');
+							dom_item_table[4] = document.createElement('span');
+							dom_item_table[4].innerText = 'avatar_icon';
+							dom_item_table[3].appendChild(dom_item_table[4]);
+							dom_item_table[2].appendChild(dom_item_table[3]);
+							dom_item_table[3] = document.createElement('td');
+							dom_item_table[4] = document.createElement('img');
+							dom_item_table[4].alt = 'discord avatar: '+discord.users_me.global_name;
+							dom_item_table[4].src = 'https://cdn.discordapp.com/avatars/'+discord.users_me.id+'/'+discord.users_me.avatar;
+							dom_item_table[3].appendChild(dom_item_table[4]);
+							dom_item_table[2].appendChild(dom_item_table[3]);
+							dom_item_table[1].appendChild(dom_item_table[2]);
 
 							dom_item_table[0].appendChild(dom_item_table[1]);
 
