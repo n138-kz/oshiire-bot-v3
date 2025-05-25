@@ -89,6 +89,12 @@ curl_setopt($curl_req, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
 curl_setopt($curl_req, CURLOPT_POSTFIELDS, json_encode($discord_post_payloadjson));
 curl_setopt($curl_req, CURLOPT_RETURNTRANSFER, TRUE);
 curl_setopt($curl_req, CURLOPT_FOLLOWLOCATION, TRUE);
+$curl_result=curl_exec($curl_req);
+$curl_result=json_decode($curl_result, TRUE);
+$curl_error=curl_error($curl_req);
+$curl_info=curl_getinfo($curl_req);
+$curl_result=($curl_result=='')?null:$curl_result;
+$curl_error=($curl_error=='')?null:$curl_error;
 
 file_put_contents($config['internal']['announce']['file']['path'].'.unsafe.json', json_encode($content_json, $config['internal']['jsonparse']['encode']), LOCK_EX);
 http_response_code(302);
