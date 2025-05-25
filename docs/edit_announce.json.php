@@ -47,6 +47,44 @@ if(mb_strtolower($_SERVER['REQUEST_METHOD'])!='post'){
 	exit(1);
 }
 
+# access_token
+$discord_access_token=isset($_POST['discord_access_token'])?$_POST['discord_access_token']:null;
+if(is_null($discord_access_token)){
+	http_response_code(401);
+	header('location: '.$config['internal']['redirect']['url']);
+	exit(1);
+}
+$curl_req=curl_init('https://discordapp.com/api/users/@me');
+curl_setopt($curl_req, CURLOPT_HTTPHEADER, ['Authorization: Bearer '.$discord_access_token]);
+curl_setopt($curl_req, CURLOPT_RETURNTRANSFER, TRUE);
+curl_setopt($curl_req, CURLOPT_FOLLOWLOCATION, TRUE);
+$curl_result=curl_exec($curl_req);
+$curl_result=json_decode($curl_result, TRUE);
+$curl_error=curl_error($curl_req);
+$curl_info=curl_getinfo($curl_req);
+$curl_result=($curl_result=='')?null:$curl_result;
+$curl_error=($curl_error=='')?null:$curl_error;
+$curl_result=[
+	'result' => $curl_result,
+	'error'  => $curl_error,
+	'info'   => $curl_info,
+];
+$list=['id', 'username', 'avatar'];
+foreach($list as $k => $v) {
+	if(!isset($curl_result['result'][$v])){
+		http_response_code(401);
+		$result['result']=[
+			'id'=>1,
+			'level'=>'Fatal',
+			'description'=>'Unauthorized(401)',
+		];
+		error_log($result['result']['level'].': '.$result['result']['description'].' evented on '.__FILE__.'#'.__LINE__);
+		header('location: '.$config['internal']['redirect']['url']);
+		exit(1);
+	}
+}
+$discord_userme = $curl_result['result'];
+
 $content=isset($_POST['content'])?$_POST['content']:null;
 $content_json=json_decode($content,true);
 
