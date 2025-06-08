@@ -119,12 +119,10 @@ if(!$content_json){
 
 # push to discord
 $discord_webhook_url = $config['external']['discord']['webhook']['notice'];
-$discord_post_fields = [
-	[
-		'name' => '',
-		'value' => '',
-		'inline' => false,
-	],
+$discord_post_payloadjson = [
+	'avatar_url' => 'https://cdn.prod.website-files.com/6257adef93867e50d84d30e2/66e3d80db9971f10a9757c99_Symbol.svg',
+	'username' => $_SERVER['SERVER_NAME'],
+	'embeds' => [],
 ];
 $discord_post_embed = [
 	'title' => basename(__FILE__),
@@ -132,18 +130,25 @@ $discord_post_embed = [
 	'color' => hexdec('ffa500'),
 	'fields' => [],
 ];
-$discord_post_payloadjson = [
-	'avatar_url' => 'https://cdn.prod.website-files.com/6257adef93867e50d84d30e2/66e3d80db9971f10a9757c99_Symbol.svg',
-	'username' => '<STRING>',
-	'embeds' => [],
+$discord_post_fields = [
+	[
+		'name' => '',
+		'value' => '',
+		'inline' => false,
+	],
 ];
-$discord_post_fields[] = [
-	'name' => '$content_json',
-	'value' => json_encode($content_json),
-	'inline' => false,
-];
+
+/* */
+	$discord_post_fields[] = [
+		'name' => '$content_json',
+		'value' => 'content_json',
+		'inline' => false,
+	];
+/* */
 $discord_post_embed['fields'] = $discord_post_fields;
-$discord_post_payloadjson['embeds'] = $discord_post_embed;
+$discord_post_payloadjson['embeds'][] = $discord_post_embed;
+file_put_contents('payload.json', json_encode($discord_post_payloadjson), LOCK_EX);
+
 $curl_req=curl_init($discord_webhook_url);
 curl_setopt($curl_req, CURLOPT_POST, TRUE);
 curl_setopt($curl_req, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
