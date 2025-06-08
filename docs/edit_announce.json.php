@@ -214,6 +214,30 @@ if(!$discord_guild_affiliation[0]){
 	exit(1);
 }
 
+# Backup to Database
+$pdo_option = [
+	\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
+	\PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
+	\PDO::ATTR_EMULATE_PREPARES => true,
+	\PDO::ATTR_PERSISTENT => true,
+];
+
+$pdo_dsn = '';
+$pdo_dsn .= $this->config['internal']['databases'][0]['schema'];
+$pdo_dsn .= ':';
+$pdo_dsn .= 'host=' . $this->config['internal']['databases'][0]['host'] . ';';
+$pdo_dsn .= 'port=' . $this->config['internal']['databases'][0]['port'] . ';';
+$pdo_dsn .= 'dbname=' . $this->config['internal']['databases'][0]['database'] . ';';
+$pdo_dsn .= 'user=' . $this->config['internal']['databases'][0]['user'] . ';';
+$pdo_dsn .= 'password=' . $this->config['internal']['databases'][0]['password'] . ';';
+$pdo_dsn .= '';
+try {
+	$pdo = new \PDO( $pdo_dsn, null, null, $pdo_option );
+	$pdo->prepare('insert into '.$config['internal']['databases'][0]['tableprefix'].' (uuid,client_address,client_name,external_id,content_json_before,content_json_after) values ();');
+} catch (\Exception $th) {
+	error_log($th->getMessage());
+}
+
 # Write to file
 file_put_contents(
 	$config['internal']['announce']['file']['path'].'.bak.json',
