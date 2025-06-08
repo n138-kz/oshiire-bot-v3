@@ -120,7 +120,7 @@ if(!$content_json){
 # push to discord
 $discord_webhook_url = $config['external']['discord']['webhook']['notice'];
 $discord_post_payloadjson = [
-	'avatar_url' => 'https://cdn.prod.website-files.com/6257adef93867e50d84d30e2/66e3d80db9971f10a9757c99_Symbol.svg',
+	'avatar_url' => 'https://cdn.discordapp.com/embed/avatars/1.png',
 	'username' => $_SERVER['SERVER_NAME'],
 	'embeds' => [],
 ];
