@@ -5,6 +5,7 @@ backup/
 assets/
 
 # Temporary files
+*.swp
 *.tmp
 *.dat
 detail.json
