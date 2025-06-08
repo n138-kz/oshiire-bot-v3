@@ -51,6 +51,9 @@ if(mb_strtolower($_SERVER['REQUEST_METHOD'])!='post'){
 	exit(1);
 }
 
+# discord userme/*
+$discord_userme = [];
+
 # access_token
 $discord_access_token=isset($_POST['discord_access_token'])?$_POST['discord_access_token']:null;
 if(is_null($discord_access_token)){
