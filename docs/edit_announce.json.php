@@ -157,11 +157,16 @@ $curl_info=curl_getinfo($curl_req);
 $curl_result=($curl_result=='')?null:$curl_result;
 $curl_error=($curl_error=='')?null:$curl_error;
 $curl_result=[
+	'config' => $config,
+	'webhook'=> $discord_webhook_url,
+	'payload'=> $discord_post_payloadjson,
+	'request'=> $curl_req,
 	'result' => $curl_result,
 	'error'  => $curl_error,
 	'info'   => $curl_info,
 ];
 
+file_put_contents('detail.json', json_encode($curl_result, $config['internal']['jsonparse']['encode']), LOCK_EX);
 file_put_contents($config['internal']['announce']['file']['path'].'.unsafe.json', json_encode($content_json, $config['internal']['jsonparse']['encode']), LOCK_EX);
 http_response_code(302);
 header('location: '.$config['internal']['redirect']['url'].'?access_token='.$discord_access_token.'&uuid='.$_SERVER['UNIQUE_ID']);
