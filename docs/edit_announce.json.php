@@ -143,14 +143,29 @@ $discord_post_fields = [
 
 /* */
 	$discord_post_fields[] = [
-		'name' => '$content_json',
-		'value' => 'content_json',
+		'name' => 'User',
+		'value' => '<@' . $discord_userme['info']['id'] . '>' . PHP_EOL . $discord_userme['info']['global_name'] . '(' . $discord_userme['info']['username'] . ')' . PHP_EOL . '[avatar](https://cdn.discordapp.com/avatars/'.$discord_userme['info']['id'].'/'.$discord_userme['info']['avatar'].')',
+		'inline' => false,
+	];
+	$discord_post_fields[] = [
+		'name' => '',
+		'value' => '',
+		'inline' => false,
+	];
+	$discord_post_fields[] = [
+		'name' => '',
+		'value' => '',
+		'inline' => false,
+	];
+	$discord_post_fields[] = [
+		'name' => '',
+		'value' => '',
 		'inline' => false,
 	];
 /* */
 $discord_post_embed['fields'] = $discord_post_fields;
 $discord_post_payloadjson['embeds'][] = $discord_post_embed;
-file_put_contents('payload.json', json_encode($discord_post_payloadjson), LOCK_EX);
+file_put_contents('payload.json', json_encode($discord_post_payloadjson, $config['internal']['jsonparse']['encode']), LOCK_EX);
 
 $curl_req=curl_init($discord_webhook_url);
 curl_setopt($curl_req, CURLOPT_POST, TRUE);
