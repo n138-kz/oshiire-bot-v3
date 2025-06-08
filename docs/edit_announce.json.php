@@ -40,6 +40,8 @@ $config['internal']['announce']['file']['path']=__DIR__.'/../discord_json_announ
 $config['internal']['announce']['file']['path']=is_file($config['internal']['announce']['file']['path'])?realpath($config['internal']['announce']['file']['path']):'';
 $config['internal']['jsonparse']['encode']=JSON_PRETTY_PRINT|JSON_NUMERIC_CHECK|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_INVALID_UTF8_IGNORE|JSON_INVALID_UTF8_SUBSTITUTE|JSON_THROW_ON_ERROR;
 $config['internal']['redirect']['url']=$_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'].preg_replace('/\.php$/', '.html', $_SERVER['PHP_SELF']);
+$config['internal']['authz']=(isset($config['internal']['authz']))?$config['internal']['authz']:[];
+$config['internal']['authz']['guilds']=(isset($config['internal']['authz']['guilds']))?$config['internal']['authz']['guilds']:[];
 $config['external']=(isset($config['external']))?$config['external']:[];
 $config['external']['discord']=(isset($config['external']['discord']))?$config['external']['discord']:[];
 $config['external']['discord']['webhook']=(isset($config['external']['discord']['webhook']))?$config['external']['discord']['webhook']:[];
@@ -112,14 +114,18 @@ $curl_result=[
 $discord_userme['guilds'] = $curl_result['result'];
 file_put_contents('users_@me_guilds.json', json_encode($discord_userme['guilds'],$config['internal']['jsonparse']['encode']), LOCK_EX); /* TMP */
 
-# BODY
-$content=isset($_POST['content'])?$_POST['content']:null;
-$content_json=json_decode($content,true);
-
-if(!$content_json){
-	http_response_code(302);
-	header('location: '.$config['internal']['redirect']['url']);
-	exit(1);
+# 所属ギルド確認 / Confirm guild affiliation
+$discord_guild_affiliation = [false, null];
+foreach($discord_userme['guilds'] as $guild_k => $guild_v){
+	foreach($config['internal']['authz']['guilds'] as $authz_k => $authz_v){
+		if( is_null($authz_v) ) { continue; }
+		if( is_null($guild_v['id']) ) { continue; }
+		if( $authz_v == $guild_v['id'] ) {
+			$discord_guild_affiliation[0] = TRUE;
+			$discord_guild_affiliation[1] = $authz_v;
+			break;
+		}
+	}
 }
 
 # Push to Discord
@@ -150,8 +156,8 @@ $discord_post_fields = [
 		'inline' => false,
 	];
 	$discord_post_fields[] = [
-		'name' => '',
-		'value' => '',
+		'name' => 'Discord Guild Affiliation',
+		'value' => $discord_guild_affiliation[0]?'Member of ['.$discord_guild_affiliation[1].'](https://discord.com/channels/'.$discord_guild_affiliation[1].')':'No member',
 		'inline' => false,
 	];
 	$discord_post_fields[] = [
@@ -192,7 +198,23 @@ $curl_result=[
 ];
 
 file_put_contents('detail.json', json_encode($curl_result, $config['internal']['jsonparse']['encode']), LOCK_EX);
-file_put_contents($config['internal']['announce']['file']['path'].'.unsafe.json', json_encode($content_json, $config['internal']['jsonparse']['encode']), LOCK_EX);
+
+# BODY
+$content=isset($_POST['content'])?$_POST['content']:null;
+$content_json=json_decode($content,true);
+
+if(!$content_json){
+	http_response_code(302);
+	header('location: '.$config['internal']['redirect']['url'].'?access_token='.$discord_access_token);
+	exit(1);
+}
+
+if(!$discord_guild_affiliation[0]){
+	http_response_code(302);
+	header('location: '.$config['internal']['redirect']['url'].'?access_token='.$discord_access_token);
+	exit(1);
+}
+
 http_response_code(302);
 header('location: '.$config['internal']['redirect']['url'].'?access_token='.$discord_access_token.'&uuid='.$_SERVER['UNIQUE_ID']);
 exit(0);
