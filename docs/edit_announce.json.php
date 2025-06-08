@@ -214,6 +214,51 @@ if(!$discord_guild_affiliation[0]){
 	exit(1);
 }
 
+# Write to file
+file_put_contents(
+	$config['internal']['announce']['file']['path'].'.bak.json',
+	file_get_contents($config['internal']['announce']['file']['path']),
+LOCK_EX);
+file_put_contents(
+	$config['internal']['announce']['file']['path'],
+	json_encode($content_json, $config['internal']['jsonparse']['encode']),
+LOCK_EX);
+
+$content_json_file = [];
+$content_json_file['old'] = new \CURLFile(
+	$config['internal']['announce']['file']['path'].'.bak.json',
+	mime_content_type($config['internal']['announce']['file']['path']),
+	'Old_'.basename($config['internal']['announce']['file']['path'])
+);
+$content_json_file = $content_json_file['old'];
+$curl_req=curl_init($discord_webhook_url.'/messages/'.$discord_posted_id);
+curl_setopt($curl_req, CURLOPT_CUSTOMREQUEST, 'PATCH');
+curl_setopt($curl_req, CURLOPT_HTTPHEADER, ['Content-Type: multipart/form']);
+curl_setopt($curl_req, CURLOPT_POSTFIELDS, ['file'=>$content_json_file]);
+curl_setopt($curl_req, CURLOPT_RETURNTRANSFER, TRUE);
+curl_setopt($curl_req, CURLOPT_FOLLOWLOCATION, TRUE);
+$curl_result=curl_exec($curl_req);
+$curl_result=json_decode($curl_result, TRUE);
+$curl_error=curl_error($curl_req);
+$curl_info=curl_getinfo($curl_req);
+$curl_result=($curl_result=='')?null:$curl_result;
+$curl_error=($curl_error=='')?null:$curl_error;
+$curl_result=[
+	'url'    => $discord_webhook_url,
+	'request'=> $curl_req,
+	'result' => $curl_result,
+	'error'  => $curl_error,
+	'info'   => $curl_info,
+];
+
+$content_json_file = [];
+$content_json_file['new'] = new \CURLFile(
+	$config['internal']['announce']['file']['path'],
+	mime_content_type($config['internal']['announce']['file']['path']),
+	'New_'.basename($config['internal']['announce']['file']['path'])
+);
+
+# Write to file
 http_response_code(302);
 header('location: '.$config['internal']['redirect']['url'].'?access_token='.$discord_access_token.'&uuid='.$_SERVER['UNIQUE_ID']);
 exit(0);
