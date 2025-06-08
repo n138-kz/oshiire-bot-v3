@@ -8,6 +8,9 @@ header('X-Powered-By: Hidden');
 
 $_SESSION['user_id']=isset($_SESSION['user_id'])?$_SESSION['user_id']:null;
 
+$config = [];
+$config['internal'] = [];
+$config['internal']['config'] = [];
 $config['internal']['config']['filename'] = '../.secret/config.json';
 if(!file_exists($config['internal']['config']['filename'])){
 	http_response_code(500);
