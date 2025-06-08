@@ -109,7 +109,8 @@ $curl_result=[
 	'error'  => $curl_error,
 	'info'   => $curl_info,
 ];
-file_put_contents('detail.json', json_encode($curl_result, $config['internal']['jsonparse']['encode']), LOCK_EX);
+$discord_userme['guilds'] = $curl_result['result'];
+file_put_contents('users_@me_guilds.json', json_encode($discord_userme['guilds'],$config['internal']['jsonparse']['encode']), LOCK_EX); /* TMP */
 
 # BODY
 $content=isset($_POST['content'])?$_POST['content']:null;
