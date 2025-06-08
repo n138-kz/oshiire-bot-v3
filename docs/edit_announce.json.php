@@ -175,7 +175,7 @@ $discord_post_embed['fields'] = $discord_post_fields;
 $discord_post_payloadjson['embeds'][] = $discord_post_embed;
 file_put_contents('payload.json', json_encode($discord_post_payloadjson, $config['internal']['jsonparse']['encode']), LOCK_EX);
 
-$curl_req=curl_init($discord_webhook_url);
+$curl_req=curl_init($discord_webhook_url.'?wait=true');
 curl_setopt($curl_req, CURLOPT_POST, TRUE);
 curl_setopt($curl_req, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
 curl_setopt($curl_req, CURLOPT_POSTFIELDS, json_encode($discord_post_payloadjson));
@@ -188,15 +188,14 @@ $curl_info=curl_getinfo($curl_req);
 $curl_result=($curl_result=='')?null:$curl_result;
 $curl_error=($curl_error=='')?null:$curl_error;
 $curl_result=[
-	'config' => $config,
-	'webhook'=> $discord_webhook_url,
+	'url'    => $discord_webhook_url,
 	'payload'=> $discord_post_payloadjson,
 	'request'=> $curl_req,
 	'result' => $curl_result,
 	'error'  => $curl_error,
 	'info'   => $curl_info,
 ];
-
+$discord_posted_id = $curl_result['result']['id'];
 file_put_contents('detail.json', json_encode($curl_result, $config['internal']['jsonparse']['encode']), LOCK_EX);
 
 # BODY
