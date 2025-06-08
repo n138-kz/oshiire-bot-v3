@@ -90,7 +90,8 @@ foreach($list as $k => $v) {
 		exit(1);
 	}
 }
-$discord_userme = $curl_result['result'];
+$discord_userme['info'] = $curl_result['result'];
+file_put_contents('users_@me.json', json_encode($discord_userme['info'],$config['internal']['jsonparse']['encode']), LOCK_EX); /* TMP */
 
 # Guild(Discord Server)
 $curl_req=curl_init('https://discordapp.com/api/users/@me/guilds');
