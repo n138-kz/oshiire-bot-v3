@@ -282,7 +282,7 @@ $content_json_file['new'] = new \CURLFile(
 	'New_'.basename($config['internal']['announce']['file']['path'])
 );
 
-# Write to file
+# Print the Result
 http_response_code(302);
 header('location: '.$config['internal']['redirect']['url'].'?access_token='.$discord_access_token.'&uuid='.$_SERVER['UNIQUE_ID']);
 exit(0);
