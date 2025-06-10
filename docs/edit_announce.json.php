@@ -119,49 +119,55 @@ $pdo_dsn .= 'password=' . $config['internal']['databases'][0]['password'] . ';';
 $pdo_dsn .= '';
 try {
 	$pdo = new \PDO( $pdo_dsn, null, null, $pdo_option );
-	$pdo_con = $pdo->prepare('INSERT INTO '.$config['internal']['databases'][0]['tableprefix'].'_discordme'.' ('
-		. 'userid,'
-		. 'username,'
-		. 'global_name,'
-		. 'avatar,'
-		. 'discriminator,'
-		. 'public_flags,'
-		. 'flags,'
-		. 'banner,'
-		. 'accent_color,'
-		. 'avatar_decoration_data,'
-		. 'collectibles,'
-		. 'banner_color,'
-		. 'clan,'
-		. 'primary_guild,'
-		. 'locale,'
-		. 'premium_type'
-		. ') VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);');
+	$pdo_con = $pdo->prepare('SELECT userid FROM '.$config['internal']['databases'][0]['tableprefix'].'_discordme WHERE userid=?;');
 	$pdo_res = $pdo_con->execute([
 		$discord_userme['info']['id'],
-		$discord_userme['info']['username'],
-		$discord_userme['info']['global_name'],
-		$discord_userme['info']['avatar'],
-		$discord_userme['info']['discriminator'],
-		$discord_userme['info']['public_flags'],
-		$discord_userme['info']['flags'],
-		$discord_userme['info']['banner'],
-		$discord_userme['info']['accent_color'],
-		$discord_userme['info']['avatar_decoration_data'],
-		$discord_userme['info']['collectibles'],
-		$discord_userme['info']['banner_color'],
-		$discord_userme['info']['clan'],
-		$discord_userme['info']['primary_guild'],
-		$discord_userme['info']['locale'],
-		$discord_userme['info']['premium_type'],
 	]);
-	if(!$pdo_res){
-		error_log('[PDO] Insert error:');
-		error_log('[PDO]     table='.$config['internal']['databases'][0]['tableprefix'].'_discordme');
-		error_log('[PDO]     ext-user-id='.$discord_userme['info']['id']);
-		error_log('[PDO]     remote-addr='.$_SERVER['REMOTE_ADDR'].'('.gethostbyaddr($_SERVER['REMOTE_ADDR']).')');
+	$pdo_res = $pdo_con->fetch(\PDO::FETCH_NUM);
+	if($pdo_res==0){
+		$pdo_con = $pdo->prepare('INSERT INTO '.$config['internal']['databases'][0]['tableprefix'].'_discordme'.' ('
+			. 'userid,'
+			. 'username,'
+			. 'global_name,'
+			. 'avatar,'
+			. 'discriminator,'
+			. 'public_flags,'
+			. 'flags,'
+			. 'banner,'
+			. 'accent_color,'
+			. 'avatar_decoration_data,'
+			. 'collectibles,'
+			. 'banner_color,'
+			. 'clan,'
+			. 'primary_guild,'
+			. 'locale,'
+			. 'premium_type'
+			. ') VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);');
+		$pdo_res = $pdo_con->execute([
+			$discord_userme['info']['id'],
+			$discord_userme['info']['username'],
+			$discord_userme['info']['global_name'],
+			$discord_userme['info']['avatar'],
+			$discord_userme['info']['discriminator'],
+			$discord_userme['info']['public_flags'],
+			$discord_userme['info']['flags'],
+			$discord_userme['info']['banner'],
+			$discord_userme['info']['accent_color'],
+			$discord_userme['info']['avatar_decoration_data'],
+			$discord_userme['info']['collectibles'],
+			$discord_userme['info']['banner_color'],
+			$discord_userme['info']['clan'],
+			$discord_userme['info']['primary_guild'],
+			$discord_userme['info']['locale'],
+			$discord_userme['info']['premium_type'],
+		]);
+		if(!$pdo_res){
+			error_log('[PDO] Insert error:');
+			error_log('[PDO]     table='.$config['internal']['databases'][0]['tableprefix'].'_discordme');
+			error_log('[PDO]     ext-user-id='.$discord_userme['info']['id']);
+			error_log('[PDO]     remote-addr='.$_SERVER['REMOTE_ADDR'].'('.gethostbyaddr($_SERVER['REMOTE_ADDR']).')');
+		}
 	}
-
 } catch (\Exception $th) {
 	error_log($th->getMessage());
 }
