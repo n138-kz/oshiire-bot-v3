@@ -230,10 +230,10 @@ $pdo_option = [
 $pdo_dsn = '';
 $pdo_dsn .= $config['internal']['databases'][0]['schema'];
 $pdo_dsn .= ':';
-$pdo_dsn .= 'host=' . $config['internal']['databases'][0]['host'] . ';';
-$pdo_dsn .= 'port=' . $config['internal']['databases'][0]['port'] . ';';
-$pdo_dsn .= 'dbname=' . $config['internal']['databases'][0]['database'] . ';';
-$pdo_dsn .= 'user=' . $config['internal']['databases'][0]['user'] . ';';
+$pdo_dsn .= 'host='     . $config['internal']['databases'][0]['host'] . ';';
+$pdo_dsn .= 'port='     . $config['internal']['databases'][0]['port'] . ';';
+$pdo_dsn .= 'dbname='   . $config['internal']['databases'][0]['database'] . ';';
+$pdo_dsn .= 'user='     . $config['internal']['databases'][0]['user'] . ';';
 $pdo_dsn .= 'password=' . $config['internal']['databases'][0]['password'] . ';';
 $pdo_dsn .= '';
 try {
