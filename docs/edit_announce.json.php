@@ -240,7 +240,23 @@ $pdo_dsn .= 'password=' . $config['internal']['databases'][0]['password'] . ';';
 $pdo_dsn .= '';
 try {
 	$pdo = new \PDO( $pdo_dsn, null, null, $pdo_option );
-	$pdo->prepare('INSERT INTO '.$config['internal']['databases'][0]['tableprefix'].' (uuid,client_address,client_name,external_id,content_json_before,content_json_after) VALUES ();');
+	$pdo_con = $pdo->prepare('INSERT INTO '.$config['internal']['databases'][0]['tableprefix'].'_contentjson'.' (uuid,client_address,client_name,external_id,content_json_before,content_json_after) VALUES (?,?,?,?,?,?);');
+	$pdo_res = $pdo_con->execute([
+		$_SERVER['UNIQUE_ID'],
+		$_SERVER['REMOTE_ADDR'],
+		gethostbyaddr($_SERVER['REMOTE_ADDR']),
+		$discord_userme['info']['id'],
+JSON_NUMERIC_CHECK|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_INVALID_UTF8_IGNORE|JSON_INVALID_UTF8_SUBSTITUTE|JSON_THROW_ON_ERROR
+		json_encode(json_decode(file_get_contents($config['internal']['announce']['file']['path'])), $config['internal']['jsonparse']['encode_noJSON_PRETTY_PRINT']),
+		json_encode($content_json, $config['internal']['jsonparse']['encode_noJSON_PRETTY_PRINT']),
+	]);
+	if(!$pdo_res){
+		error_log('[PDO] Insert error:');
+		error_log('[PDO]     table='.$config['internal']['databases'][0]['tableprefix'].'_contentjson');
+		error_log('[PDO]     ext-user-id='.$discord_userme['info']['id']);
+		error_log('[PDO]     remote-addr='.$_SERVER['REMOTE_ADDR'].'('.gethostbyaddr($_SERVER['REMOTE_ADDR']).')');
+	}
+
 } catch (\Exception $th) {
 	error_log($th->getMessage());
 }
