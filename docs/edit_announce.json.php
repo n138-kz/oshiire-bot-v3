@@ -100,6 +100,72 @@ foreach($list as $k => $v) {
 $discord_userme['info'] = $curl_result['result'];
 # debug-file: users_@me.json
 
+# Backup to Database: _discordme
+$pdo_option = [
+	\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
+	\PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
+	\PDO::ATTR_EMULATE_PREPARES => true,
+	\PDO::ATTR_PERSISTENT => true,
+];
+
+$pdo_dsn = '';
+$pdo_dsn .= $config['internal']['databases'][0]['schema'];
+$pdo_dsn .= ':';
+$pdo_dsn .= 'host='     . $config['internal']['databases'][0]['host'] . ';';
+$pdo_dsn .= 'port='     . $config['internal']['databases'][0]['port'] . ';';
+$pdo_dsn .= 'dbname='   . $config['internal']['databases'][0]['database'] . ';';
+$pdo_dsn .= 'user='     . $config['internal']['databases'][0]['user'] . ';';
+$pdo_dsn .= 'password=' . $config['internal']['databases'][0]['password'] . ';';
+$pdo_dsn .= '';
+try {
+	$pdo = new \PDO( $pdo_dsn, null, null, $pdo_option );
+	$pdo_con = $pdo->prepare('INSERT INTO '.$config['internal']['databases'][0]['tableprefix'].'_discordme'.' ('
+		. 'userid,'
+		. 'username,'
+		. 'global_name,'
+		. 'avatar,'
+		. 'discriminator,'
+		. 'public_flags,'
+		. 'flags,'
+		. 'banner,'
+		. 'accent_color,'
+		. 'avatar_decoration_data,'
+		. 'collectibles,'
+		. 'banner_color,'
+		. 'clan,'
+		. 'primary_guild,'
+		. 'locale,'
+		. 'premium_type'
+		. ') VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);');
+	$pdo_res = $pdo_con->execute([
+		$discord_userme['info']['id'],
+		$discord_userme['info']['username'],
+		$discord_userme['info']['global_name'],
+		$discord_userme['info']['avatar'],
+		$discord_userme['info']['discriminator'],
+		$discord_userme['info']['public_flags'],
+		$discord_userme['info']['flags'],
+		$discord_userme['info']['banner'],
+		$discord_userme['info']['accent_color'],
+		$discord_userme['info']['avatar_decoration_data'],
+		$discord_userme['info']['collectibles'],
+		$discord_userme['info']['banner_color'],
+		$discord_userme['info']['clan'],
+		$discord_userme['info']['primary_guild'],
+		$discord_userme['info']['locale'],
+		$discord_userme['info']['premium_type'],
+	]);
+	if(!$pdo_res){
+		error_log('[PDO] Insert error:');
+		error_log('[PDO]     table='.$config['internal']['databases'][0]['tableprefix'].'_discordme');
+		error_log('[PDO]     ext-user-id='.$discord_userme['info']['id']);
+		error_log('[PDO]     remote-addr='.$_SERVER['REMOTE_ADDR'].'('.gethostbyaddr($_SERVER['REMOTE_ADDR']).')');
+	}
+
+} catch (\Exception $th) {
+	error_log($th->getMessage());
+}
+
 # Guild(Discord Server)
 $curl_req=curl_init('https://discordapp.com/api/users/@me/guilds');
 curl_setopt($curl_req, CURLOPT_HTTPHEADER, ['Authorization: Bearer '.$discord_access_token]);
@@ -221,7 +287,7 @@ if(!$discord_guild_affiliation[0]){
 # Update timestamp
 $content_json['embeds'][0]['timestamp'] = date('c');
 
-# Backup to Database
+# Backup to Database: _contentjson
 $pdo_option = [
 	\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
 	\PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
