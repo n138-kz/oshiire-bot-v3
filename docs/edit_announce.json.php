@@ -238,7 +238,7 @@ $pdo_dsn .= 'password=' . $config['internal']['databases'][0]['password'] . ';';
 $pdo_dsn .= '';
 try {
 	$pdo = new \PDO( $pdo_dsn, null, null, $pdo_option );
-	$pdo->prepare('insert into '.$config['internal']['databases'][0]['tableprefix'].' (uuid,client_address,client_name,external_id,content_json_before,content_json_after) values ();');
+	$pdo->prepare('INSERT INTO '.$config['internal']['databases'][0]['tableprefix'].' (uuid,client_address,client_name,external_id,content_json_before,content_json_after) VALUES ();');
 } catch (\Exception $th) {
 	error_log($th->getMessage());
 }
