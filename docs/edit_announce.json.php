@@ -96,7 +96,7 @@ foreach($list as $k => $v) {
 	}
 }
 $discord_userme['info'] = $curl_result['result'];
-file_put_contents('users_@me.json', json_encode($discord_userme['info'],$config['internal']['jsonparse']['encode']), LOCK_EX); /* TMP */
+# debug-file: users_@me.json
 
 # Guild(Discord Server)
 $curl_req=curl_init('https://discordapp.com/api/users/@me/guilds');
@@ -115,7 +115,7 @@ $curl_result=[
 	'info'   => $curl_info,
 ];
 $discord_userme['guilds'] = $curl_result['result'];
-file_put_contents('users_@me_guilds.json', json_encode($discord_userme['guilds'],$config['internal']['jsonparse']['encode']), LOCK_EX); /* TMP */
+# debug-file: users_@me_guilds.json
 
 # 所属ギルド確認 / Confirm guild affiliation
 $discord_guild_affiliation = [false, null];
@@ -176,7 +176,7 @@ $discord_post_fields = [
 /* */
 $discord_post_embed['fields'] = $discord_post_fields;
 $discord_post_payloadjson['embeds'][] = $discord_post_embed;
-file_put_contents('payload.json', json_encode($discord_post_payloadjson, $config['internal']['jsonparse']['encode']), LOCK_EX); /* TMP */
+# debug-file: payload.json
 
 $curl_req=curl_init($discord_webhook_url.'?wait=true');
 curl_setopt($curl_req, CURLOPT_POST, TRUE);
@@ -199,7 +199,6 @@ $curl_result=[
 	'info'   => $curl_info,
 ];
 $discord_posted_id = $curl_result['result']['id'];
-file_put_contents('detail.json', json_encode($curl_result, $config['internal']['jsonparse']['encode']), LOCK_EX); /* TMP */
 
 # BODY
 $content=isset($_POST['content'])?$_POST['content']:null;
@@ -310,7 +309,6 @@ foreach( file($config['internal']['sessions']['file']['path']) as $sess_k => $se
 		'error'  => $curl_error,
 		'info'   => $curl_info,
 	];
-	file_put_contents('detail_'.basename($sess_v).'.json', json_encode($curl_result, $config['internal']['jsonparse']['encode']), LOCK_EX); /* TMP */
 }
 
 # Print the Result
