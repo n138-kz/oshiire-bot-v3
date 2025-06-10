@@ -285,6 +285,31 @@ $content_json_file['new'] = new \CURLFile(
 	'New_'.basename($config['internal']['announce']['file']['path'])
 );
 
+# Patch to discord
+foreach( file($config['internal']['sessions']['file']['path']) as $sess_k => $sess_v ){
+	$sess_v = str_replace(PHP_EOL, '', $sess_v);
+	$curl_req=curl_init($sess_v);
+	curl_setopt($curl_req, CURLOPT_CUSTOMREQUEST, 'PATCH');
+	curl_setopt($curl_req, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+	curl_setopt($curl_req, CURLOPT_POSTFIELDS, json_encode($content_json));
+	curl_setopt($curl_req, CURLOPT_RETURNTRANSFER, TRUE);
+	curl_setopt($curl_req, CURLOPT_FOLLOWLOCATION, TRUE);
+	$curl_result=curl_exec($curl_req);
+	$curl_result=json_decode($curl_result, TRUE);
+	$curl_error=curl_error($curl_req);
+	$curl_info=curl_getinfo($curl_req);
+	$curl_result=($curl_result=='')?null:$curl_result;
+	$curl_error=($curl_error=='')?null:$curl_error;
+	$curl_result=[
+		'url'    => $discord_webhook_url,
+		'request'=> $curl_req,
+		'result' => $curl_result,
+		'error'  => $curl_error,
+		'info'   => $curl_info,
+	];
+	file_put_contents('detail_'.basename($sess_v).'.json', json_encode($curl_result, $config['internal']['jsonparse']['encode']), LOCK_EX); /* TMP */
+}
+
 # Print the Result
 http_response_code(302);
 header('location: '.$config['internal']['redirect']['url'].'?access_token='.$discord_access_token.'&uuid='.$_SERVER['UNIQUE_ID']);
