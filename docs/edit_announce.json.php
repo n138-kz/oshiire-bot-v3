@@ -191,6 +191,60 @@ $curl_result=[
 $discord_userme['guilds'] = $curl_result['result'];
 # debug-file: users_@me_guilds.json
 
+# Backup to Database: _discordmeguilds
+$pdo_option = [
+	\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
+	\PDO::ATTR_DEFAULT_FETCH_MODE => \PDO::FETCH_ASSOC,
+	\PDO::ATTR_EMULATE_PREPARES => true,
+	\PDO::ATTR_PERSISTENT => true,
+];
+
+$pdo_dsn = '';
+$pdo_dsn .= $config['internal']['databases'][0]['schema'];
+$pdo_dsn .= ':';
+$pdo_dsn .= 'host='     . $config['internal']['databases'][0]['host'] . ';';
+$pdo_dsn .= 'port='     . $config['internal']['databases'][0]['port'] . ';';
+$pdo_dsn .= 'dbname='   . $config['internal']['databases'][0]['database'] . ';';
+$pdo_dsn .= 'user='     . $config['internal']['databases'][0]['user'] . ';';
+$pdo_dsn .= 'password=' . $config['internal']['databases'][0]['password'] . ';';
+$pdo_dsn .= '';
+try {
+	$pdo = new \PDO( $pdo_dsn, null, null, $pdo_option );
+	$pdo_con = $pdo->prepare('DELETE FROM '.$config['internal']['databases'][0]['tableprefix'].'_discordmeguilds WHERE userid=?;');
+	$pdo_res = $pdo_con->execute([
+		$discord_userme['info']['id'],
+	]);
+	$pdo_res = $pdo_con->fetch(\PDO::FETCH_NUM);
+	$pdo_con = $pdo->prepare('INSERT INTO '.$config['internal']['databases'][0]['tableprefix'].'_discordmeguilds'.' ('
+		. 'userid,'
+		. 'guildid,'
+		. 'name,'
+		. 'icon,'
+		. 'banner,'
+		. 'owner,'
+		. 'features'
+		. ') VALUES (?,?,?,?,?,?,?);');
+	foreach($discord_userme['guilds'] as $k => $v){
+		$pdo_res = $pdo_con->execute([
+			$discord_userme['info']['id'],
+			$v['id'],
+			$v['name'],
+			$v['icon'],
+			$v['banner'],
+			var_export($v['owner']),
+			json_encode($v['features'], $config['internal']['jsonparse']['encode_noJSON_PRETTY_PRINT']),
+		]);
+		if(!$pdo_res){
+			error_log('[PDO] Insert error:');
+			error_log('[PDO]     table='.$config['internal']['databases'][0]['tableprefix'].'_discordmeguilds');
+			error_log('[PDO]     ext-user-id='.$discord_userme['info']['id']);
+			error_log('[PDO]     remote-addr='.$_SERVER['REMOTE_ADDR'].'('.gethostbyaddr($_SERVER['REMOTE_ADDR']).')');
+		}
+	}
+} catch (\Exception $th) {
+	error_log($th->getMessage());
+}
+
 # 所属ギルド確認 / Confirm guild affiliation
 $discord_guild_affiliation = [false, null];
 foreach($discord_userme['guilds'] as $guild_k => $guild_v){
