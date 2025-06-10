@@ -42,6 +42,8 @@ $config['internal']['sessions']['file']['path']=__DIR__.'/../discord_json_announ
 $config['internal']['sessions']['file']['path']=is_file($config['internal']['sessions']['file']['path'])?realpath($config['internal']['sessions']['file']['path']):'';
 
 $config['internal']['jsonparse']['encode']=JSON_PRETTY_PRINT|JSON_NUMERIC_CHECK|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_INVALID_UTF8_IGNORE|JSON_INVALID_UTF8_SUBSTITUTE|JSON_THROW_ON_ERROR;
+$config['internal']['jsonparse']['encode_noJSON_PRETTY_PRINT']=JSON_NUMERIC_CHECK|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_INVALID_UTF8_IGNORE|JSON_INVALID_UTF8_SUBSTITUTE|JSON_THROW_ON_ERROR;
+
 $config['internal']['redirect']['url']=$_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['SERVER_NAME'].preg_replace('/\.php$/', '.html', $_SERVER['PHP_SELF']);
 $config['internal']['authz']=(isset($config['internal']['authz']))?$config['internal']['authz']:[];
 $config['internal']['authz']['guilds']=(isset($config['internal']['authz']['guilds']))?$config['internal']['authz']['guilds']:[];
