@@ -246,7 +246,6 @@ try {
 		$_SERVER['REMOTE_ADDR'],
 		gethostbyaddr($_SERVER['REMOTE_ADDR']),
 		$discord_userme['info']['id'],
-JSON_NUMERIC_CHECK|JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE|JSON_INVALID_UTF8_IGNORE|JSON_INVALID_UTF8_SUBSTITUTE|JSON_THROW_ON_ERROR
 		json_encode(json_decode(file_get_contents($config['internal']['announce']['file']['path'])), $config['internal']['jsonparse']['encode_noJSON_PRETTY_PRINT']),
 		json_encode($content_json, $config['internal']['jsonparse']['encode_noJSON_PRETTY_PRINT']),
 	]);
