@@ -217,6 +217,9 @@ if(!$discord_guild_affiliation[0]){
 	exit(1);
 }
 
+# Update timestamp
+$content_json['embeds'][0]['timestamp'] = date('c');
+
 # Backup to Database
 $pdo_option = [
 	\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
