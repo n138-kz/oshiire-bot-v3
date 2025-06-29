@@ -383,6 +383,7 @@
 			}
 			window.addEventListener('DOMContentLoaded', ()=>{
 				let now = new Date();
+				now.setSeconds(0);
 				document.querySelector('#datetime_to_epoch11').value = todatetimelocalformat(now,'{Y}-{m}-{d}T{H}:{i}:{s}');
 				document.querySelector('#datetime_to_epoch12').value = `${Math.trunc(now.getTime()/10**3)}`;
 			});
