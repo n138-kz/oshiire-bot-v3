@@ -198,7 +198,9 @@
 						try{
 							// get access_token
 							url = 'https://api.n138.jp/sso_discord/server/token.php?&redirect_url=https%3A%2F%2Fwww.n138.jp%2Foshiire-bot-v3%2Fdocs%2Fedit_announce.json.html&code='+query_list.code;
-							req = await fetch(url);
+							req = await fetch(url, {
+								cache: 'no-store',
+							});
 							if(req.status>299||req.status<200){
 								throw `${req.statusText}(${req.status})`;
 							}
@@ -223,10 +225,11 @@
 							xhr.userme = {
 								url: 'https://discordapp.com/api/users/@me',
 							};
-							xhr.userme.req = await fetch(await xhr.userme.url,{
+							xhr.userme.req = await fetch(await xhr.userme.url, {
 								headers: {
 									Authorization: 'Bearer '+query_list.access_token,
 								},
+								cache: 'no-store',
 							});
 							if(xhr.userme.req.status>299||xhr.userme.req.status<200){
 								throw `${xhr.userme.req.statusText}(${xhr.userme.req.status})`;
@@ -263,6 +266,7 @@
 								headers: {
 									Authorization: 'Bearer '+query_list.access_token,
 								},
+								cache: 'no-store',
 							});
 							if(req.status>299||req.status<200){
 								throw `${req.statusText}(${req.status})`;
@@ -300,9 +304,11 @@
 
 							// Load _announce.json
 							url = '../discord_json_announcements/_announce.json';
-							req = await fetch(url);
+							req = await fetch(url, {
+								cache: 'no-store',
+							});
 							res = await req.json();
-							console.debug({url:url,req:req,res:res});
+							console.debug({url:url, req:req, res:res,});
 							document.querySelector('#file_content').value = JSON.stringify(res,null,' '.repeat(4))
 
 						}catch(e){
