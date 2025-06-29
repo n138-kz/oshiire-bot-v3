@@ -69,7 +69,7 @@
 		}
 	</style>
 	<script>
-		function send(calledby,requestSend=false){
+		function send(calledby, requestSend = false){
 			console.log({
 				calledby: calledby,
 				form: calledby.parentNode.parentNode,
@@ -78,7 +78,7 @@
 			let data = document.querySelector('#file_content').value;
 			console.debug(data);
 
-			document.querySelector('#file_check_json_status').innerText='Check OK.';
+			document.querySelector('#file_check_json_status').innerText = 'Check OK.';
 			document.querySelector('#file_check_json_status').removeAttribute('class');
 			try {
 				JSON.parse(data);
@@ -93,22 +93,22 @@
 				if (false) {
 				} else if (error instanceof SyntaxError) {
 					console.warn('Well-known Error: SyntaxError', error.message);
-					document.querySelector('#file_check_json_status').innerText=error.message;
+					document.querySelector('#file_check_json_status').innerText = error.message;
 					document.querySelector('#file_check_json_status').classList.add('error');
 					console.error(error);
 
-					/* lang=ja */
-					file_check_json_status=document.querySelector('#file_check_json_status').innerText;
-					file_check_json_status=file_check_json_status.replace(/[\t\f\r\n]/g, '');
-					file_check_json_status=file_check_json_status.replace(/Expected double-quoted property name in JSON at position \d+/, '無効な書式です');
-					file_check_json_status=file_check_json_status.replace(/Expected ',' or ']' after array element in JSON at position \d+/, '無効な書式です');
-					file_check_json_status=file_check_json_status.replace(/Unexpected token .* is not valid JSON/, '無効な書式です (line '+document.querySelector('#file_content').value.split(/\n/).length+' column 1)');
-					document.querySelector('#file_check_json_status').innerText=file_check_json_status;
+					/* lang:ja */
+					file_check_json_status = document.querySelector('#file_check_json_status').innerText;
+					file_check_json_status = file_check_json_status.replace(/[\t\f\r\n]/g, '');
+					file_check_json_status = file_check_json_status.replace(/Expected double-quoted property name in JSON at position \d+/, '無効な書式です');
+					file_check_json_status = file_check_json_status.replace(/Expected ',' or ']' after array element in JSON at position \d+/, '無効な書式です');
+					file_check_json_status = file_check_json_status.replace(/Unexpected token .* is not valid JSON/, '無効な書式です (line '+document.querySelector('#file_content').value.split(/\n/).length+' column 1)');
+					document.querySelector('#file_check_json_status').innerText = file_check_json_status;
 				} else {
-					dom=document.createElement('div');
-					dom.style.backgroundColor='#ff0000';
-					dom.style.color='#ffffff';
-					dom.innerText=`Fatal ERROR has occured. ${error.message}`;
+					dom = document.createElement('div');
+					dom.style.backgroundColor = '#ff0000';
+					dom.style.color = '#ffffff';
+					dom.innerText = `Fatal ERROR has occured. ${error.message}`;
 					document.body.prepend(dom);
 					throw error;
 				}
@@ -126,7 +126,7 @@
 		<div>ユーザ認証・所属ギルド確認の為、以下情報を取得します。<div id="discord_authn_scope"></div></div>
 		<script>
 			window.addEventListener('DOMContentLoaded', async ()=>{
-				let scope=get_GETarray( ( decodeURI(document.querySelectorAll('[name="discord_authn_portal"]')[0].children[0].children[0].href)+'&' ).replace(/.*\?/,'') )['scope']
+				let scope = get_GETarray( ( decodeURI(document.querySelectorAll('[name="discord_authn_portal"]')[0].children[0].children[0].href)+'&' ).replace(/.*\?/,'') )['scope']
 				console.debug('discord_authn_scope', scope);
 				
 				let dom_item_list = [];
@@ -161,18 +161,18 @@
 		<script>
 			window.addEventListener('DOMContentLoaded', async ()=>{
 				let query_list = get_GETarray((decodeURI(location.search)+'&').replace(/^\?/,''));
-				query_list.code=( query_list.code === "" || query_list.code === null || query_list.code === undefined )?'':query_list.code;
-				query_list.access_token=( query_list.access_token === "" || query_list.access_token === null || query_list.access_token === undefined )?'':query_list.access_token;
-				query_list.error=( query_list.error === "" || query_list.error === null || query_list.error === undefined )?'':query_list.error;
-				query_list.error_description=( query_list.error_description === "" || query_list.error_description === null || query_list.error_description === undefined )?'':decodeURIComponent(query_list.error_description.replace(/\+/g,'%20'));
+				query_list.code = ( query_list.code === "" || query_list.code === null || query_list.code === undefined )?'':query_list.code;
+				query_list.access_token = ( query_list.access_token === "" || query_list.access_token === null || query_list.access_token === undefined )?'':query_list.access_token;
+				query_list.error = ( query_list.error === "" || query_list.error === null || query_list.error === undefined )?'':query_list.error;
+				query_list.error_description = ( query_list.error_description === "" || query_list.error_description === null || query_list.error_description === undefined )?'':decodeURIComponent(query_list.error_description.replace(/\+/g,'%20'));
 				console.debug(query_list);
 
 				if ( query_list.error !== '' || query_list.error_description !== '' ) {
-					query_list.error_info=( query_list.error === '' || query_list.error_description === '' )?'':`${query_list.error}: ${query_list.error_description}`
+					query_list.error_info = ( query_list.error === '' || query_list.error_description === '' )?'':`${query_list.error}: ${query_list.error_description}`
 
 					dom_item_table = [];
 					dom_item_table[0] = document.createElement('table');
-					dom_item_table[0].border= "1";
+					dom_item_table[0].border = "1";
 					dom_item_table[1] = document.createElement('tbody');
 					dom_item_table[2] = document.createElement('tr');
 					dom_item_table[3] = document.createElement('th');
@@ -198,11 +198,11 @@
 						try{
 							// get access_token
 							url = 'https://api.n138.jp/sso_discord/server/token.php?&redirect_url=https%3A%2F%2Fwww.n138.jp%2Foshiire-bot-v3%2Fdocs%2Fedit_announce.json.html&code='+query_list.code;
-							req=await fetch(url);
+							req = await fetch(url);
 							if(req.status>299||req.status<200){
 								throw `${req.statusText}(${req.status})`;
 							}
-							res=await req.json();
+							res = await req.json();
 							res.oauth2_token.expires_at = new Date((Date.now()/10**3+res.oauth2_token.expires_in)*10**3);
 							console.debug({url:url,req:req,res:res});
 							discord.oauth2_token = res.oauth2_token;
@@ -223,7 +223,7 @@
 							xhr.userme = {
 								url: 'https://discordapp.com/api/users/@me',
 							};
-							xhr.userme.req=await fetch(await xhr.userme.url,{
+							xhr.userme.req = await fetch(await xhr.userme.url,{
 								headers: {
 									Authorization: 'Bearer '+query_list.access_token,
 								},
@@ -231,7 +231,7 @@
 							if(xhr.userme.req.status>299||xhr.userme.req.status<200){
 								throw `${xhr.userme.req.statusText}(${xhr.userme.req.status})`;
 							}
-							xhr.userme.res=await xhr.userme.req.json();
+							xhr.userme.res = await xhr.userme.req.json();
 							console.debug({xhr:xhr.userme, q:query_list});
 							Object.assign({
 								accent_color: null,
@@ -259,7 +259,7 @@
 							
 							// get guild_affiliation
 							url = 'https://discordapp.com/api/users/@me/guilds';
-							req=await fetch(url,{
+							req = await fetch(url,{
 								headers: {
 									Authorization: 'Bearer '+query_list.access_token,
 								},
@@ -267,7 +267,7 @@
 							if(req.status>299||req.status<200){
 								throw `${req.statusText}(${req.status})`;
 							}
-							res=await req.json();
+							res = await req.json();
 							console.debug({url:url,req:req,res:res});
 							discord.users_me_guilds = res;
 							sessionStorage.setItem( (btoa(location.href)).slice(0, 16) + '.'+'users_me_guild', JSON.stringify(res) );
@@ -299,11 +299,11 @@
 							document.querySelectorAll('[name="discord_authn_portal"]')[0].appendChild(dom_item);
 
 							// Load _announce.json
-							url='../discord_json_announcements/_announce.json';
-							req=await fetch(url);
-							res=await req.json();
+							url = '../discord_json_announcements/_announce.json';
+							req = await fetch(url);
+							res = await req.json();
 							console.debug({url:url,req:req,res:res});
-							document.querySelector('#file_content').value=JSON.stringify(res,null,' '.repeat(4))
+							document.querySelector('#file_content').value = JSON.stringify(res,null,' '.repeat(4))
 
 						}catch(e){
 							console.error(e);
@@ -364,21 +364,21 @@
 			</tr>
 		</table>
 		<script>
-			function todatetimelocalformat(time=new Date(),format='{Y}-{m}-{d} {H}:{i}:{s}'){
-				epoch=time;
-				output=format;
-				output=output.replace('{Y}', epoch.getFullYear());
-				output=output.replace('{m}', ('00'+(epoch.getMonth()+1)).slice(-2));
-				output=output.replace('{d}', ('00'+(epoch.getDate())).slice(-2));
-				output=output.replace('{H}', ('00'+(epoch.getHours())).slice(-2));
-				output=output.replace('{i}', ('00'+(epoch.getMinutes())).slice(-2));
-				output=output.replace('{s}', ('00'+(epoch.getSeconds())).slice(-2));
+			function todatetimelocalformat(time = new Date(), format = '{Y}-{m}-{d} {H}:{i}:{s}'){
+				epoch = time;
+				output = format;
+				output = output.replace('{Y}', epoch.getFullYear());
+				output = output.replace('{m}', ('00'+(epoch.getMonth()+1)).slice(-2));
+				output = output.replace('{d}', ('00'+(epoch.getDate())).slice(-2));
+				output = output.replace('{H}', ('00'+(epoch.getHours())).slice(-2));
+				output = output.replace('{i}', ('00'+(epoch.getMinutes())).slice(-2));
+				output = output.replace('{s}', ('00'+(epoch.getSeconds())).slice(-2));
 				return output;
 			}
 			window.addEventListener('DOMContentLoaded', ()=>{
-				let now=new Date();
-				document.querySelector('#datetime_to_epoch11').value=todatetimelocalformat(now,'{Y}-{m}-{d}T{H}:{i}:{s}');
-				document.querySelector('#datetime_to_epoch12').value='<t:'+Math.trunc(now.getTime()/10**3)+':f>';
+				let now = new Date();
+				document.querySelector('#datetime_to_epoch11').value = todatetimelocalformat(now,'{Y}-{m}-{d}T{H}:{i}:{s}');
+				document.querySelector('#datetime_to_epoch12').value = '<t:'+Math.trunc(now.getTime()/10**3)+':f>';
 			});
 		</script>
 	</fieldset>
@@ -415,10 +415,6 @@
 				<td><code>:end:</code></td>
 			</tr>
 		</table>
-		<script>
-			window.addEventListener('DOMContentLoaded', ()=>{
-			});
-		</script>
 	</fieldset>
 </body>
 </html>
