@@ -361,7 +361,7 @@
 		<table class="">
 			<tr>
 				<td>
-					<input type="datetime-local" id="datetime_to_epoch11" onchange="console.log(this.value);document.querySelector('#datetime_to_epoch12').value='<t:'+new Date(this.value).getTime()/10**3+':f>';" step="1">
+					<input type="datetime-local" id="datetime_to_epoch11" onchange="console.log(this.value);document.querySelector('#datetime_to_epoch12').value=`${Math.trunc(now.getTime()/10**3)}`;" step="1">
 				</td>
 				<td>→</td>
 				<td>
@@ -384,7 +384,7 @@
 			window.addEventListener('DOMContentLoaded', ()=>{
 				let now = new Date();
 				document.querySelector('#datetime_to_epoch11').value = todatetimelocalformat(now,'{Y}-{m}-{d}T{H}:{i}:{s}');
-				document.querySelector('#datetime_to_epoch12').value = '<t:'+Math.trunc(now.getTime()/10**3)+':f>';
+				document.querySelector('#datetime_to_epoch12').value = `${Math.trunc(now.getTime()/10**3)}`;
 			});
 		</script>
 	</fieldset>
