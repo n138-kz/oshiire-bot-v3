@@ -123,6 +123,17 @@
 			}
 		}
 	</script>
+	<script>
+		document.addEventListener('keydown', function(event) {
+			if (event.ctrlKey && event.key === 's') {
+				// Ctrl+Sが押された時の処理
+				event.preventDefault(); // デフォルトの動作を無効化（例: ブラウザの保存ダイアログをempêcher）
+				//ここにCtrl+Sが押された時の処理を記述
+				console.log("Ctrl+Sが押されました");
+				send(document.querySelector('form[action="edit_announce.json.php"] input[type="button"]'), true);
+			}
+		});
+	</script>
 </head>
 <body>
 	<fieldset>
