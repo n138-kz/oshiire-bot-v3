@@ -361,9 +361,21 @@
 								},
 							};
 							if (false) {
+							} else if ( internalStorage.sessionStorage.oauth2_token === '' ) {
+							} else if ( internalStorage.sessionStorage.oauth2_token === null ) {
+							} else if ( internalStorage.sessionStorage.oauth2_token === undefined ) {
+							} else if ( internalStorage.sessionStorage.oauth2_token.access_token === '' ) {
+							} else if ( internalStorage.sessionStorage.oauth2_token.access_token === null ) {
+							} else if ( internalStorage.sessionStorage.oauth2_token.access_token === undefined ) {
 							} else if ( internalStorage.sessionStorage.oauth2_token.access_token !== '' ) {
 								sessionStorage.clear();
 								location.replace( location.origin + location.pathname + '?' + 'access_token=' + internalStorage.sessionStorage.oauth2_token.access_token );
+							} else if ( internalStorage.localStorage.oauth2_token === '' ) {
+							} else if ( internalStorage.localStorage.oauth2_token === null ) {
+							} else if ( internalStorage.localStorage.oauth2_token === undefined ) {
+							} else if ( internalStorage.localStorage.oauth2_token.access_token === '' ) {
+							} else if ( internalStorage.localStorage.oauth2_token.access_token === null ) {
+							} else if ( internalStorage.localStorage.oauth2_token.access_token === undefined ) {
 							} else if ( internalStorage.localStorage.oauth2_token.access_token !== '' ) {
 								sessionStorage.clear();
 								localStorage.clear();
