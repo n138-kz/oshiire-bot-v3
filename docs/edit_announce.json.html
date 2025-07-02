@@ -250,6 +250,11 @@
 								},
 								cache: 'no-store',
 							});
+							if(xhr.userme.req.status>299||xhr.userme.req.status<200){
+								throw `${xhr.userme.req.statusText}(${xhr.userme.req.status})`;
+							}
+							xhr.userme.res = await xhr.userme.req.json();
+							console.debug({xhr:xhr.userme, q:query_list});
 						} catch (error) {
 							console.error({
 								error_raw: error,
@@ -265,11 +270,6 @@
 								location.replace(location.origin+location.pathname);
 							}, 1000*5);
 						}
-						if(xhr.userme.req.status>299||xhr.userme.req.status<200){
-							throw `${xhr.userme.req.statusText}(${xhr.userme.req.status})`;
-						}
-						xhr.userme.res = await xhr.userme.req.json();
-						console.debug({xhr:xhr.userme, q:query_list});
 						Object.assign({
 							accent_color: null,
 							avatar: null,
