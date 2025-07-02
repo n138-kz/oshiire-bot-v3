@@ -238,117 +238,117 @@
 						location.replace( location.origin + location.pathname + '?' + 'access_token=' + discord.oauth2_token.access_token );
 
 					} else if ( query_list.access_token !== '' ) {
-							// get user-me
-							let xhr = {};
-							xhr.userme = {
-								url: 'https://discordapp.com/api/users/@me',
-							};
-							try {
-								xhr.userme.req = await fetch(await xhr.userme.url, {
-									headers: {
-										Authorization: 'Bearer '+query_list.access_token,
-									},
-									cache: 'no-store',
-								});
-							} catch (error) {
-								console.error({
-									error_raw: error,
-									error_message: error.message,
-									error_stack: error.stack,
-									fetch_request: xhr.userme.req,
-									fetch_response: [
-										await xhr.userme.req.status,
-										await xhr.userme.req.statusText,
-									],
-								});
-								setTimeout(()=>{
-									location.replace(location.origin+location.pathname);
-								}, 1000*5);
-							}
-							if(xhr.userme.req.status>299||xhr.userme.req.status<200){
-								throw `${xhr.userme.req.statusText}(${xhr.userme.req.status})`;
-							}
-							xhr.userme.res = await xhr.userme.req.json();
-							console.debug({xhr:xhr.userme, q:query_list});
-							Object.assign({
-								accent_color: null,
-								avatar: null,
-								avatar_decoration_data: null,
-								banner: null,
-								banner_color: null,
-								clan: null,
-								collectibles: null,
-								discriminator: null,
-								email: null,
-								flags: null,
-								global_name: null,
-								id: null,
-								locale: null,
-								mfa_enabled: null,
-								premium_type: null,
-								primary_guild: null,
-								public_flags: null,
-								username: null,
-								verified: null,
-							},xhr.userme.res);
-							discord.users_me = xhr.userme.res;
-							sessionStorage.setItem( (btoa(location.href)).slice(0, 16) + '.'+'users_me', JSON.stringify(xhr.userme.res) );
-							
-							// get guild_affiliation
-							url = 'https://discordapp.com/api/users/@me/guilds';
-							req = await fetch(url,{
+						// get user-me
+						let xhr = {};
+						xhr.userme = {
+							url: 'https://discordapp.com/api/users/@me',
+						};
+						try {
+							xhr.userme.req = await fetch(await xhr.userme.url, {
 								headers: {
 									Authorization: 'Bearer '+query_list.access_token,
 								},
 								cache: 'no-store',
 							});
-							if(req.status>299||req.status<200){
-								throw `${req.statusText}(${req.status})`;
-							}
-							res = await req.json();
-							console.debug({url:url,req:req,res:res});
-							discord.users_me_guilds = res;
-							sessionStorage.setItem( (btoa(location.href)).slice(0, 16) + '.'+'users_me_guild', JSON.stringify(res) );
-
-							Array.from(document.querySelectorAll('[name="discord_access_token"]')).map((e)=>{
-								e.value = query_list.access_token;
+						} catch (error) {
+							console.error({
+								error_raw: error,
+								error_message: error.message,
+								error_stack: error.stack,
+								fetch_request: xhr.userme.req,
+								fetch_response: [
+									await xhr.userme.req.status,
+									await xhr.userme.req.statusText,
+								],
 							});
+							setTimeout(()=>{
+								location.replace(location.origin+location.pathname);
+							}, 1000*5);
+						}
+						if(xhr.userme.req.status>299||xhr.userme.req.status<200){
+							throw `${xhr.userme.req.statusText}(${xhr.userme.req.status})`;
+						}
+						xhr.userme.res = await xhr.userme.req.json();
+						console.debug({xhr:xhr.userme, q:query_list});
+						Object.assign({
+							accent_color: null,
+							avatar: null,
+							avatar_decoration_data: null,
+							banner: null,
+							banner_color: null,
+							clan: null,
+							collectibles: null,
+							discriminator: null,
+							email: null,
+							flags: null,
+							global_name: null,
+							id: null,
+							locale: null,
+							mfa_enabled: null,
+							premium_type: null,
+							primary_guild: null,
+							public_flags: null,
+							username: null,
+							verified: null,
+						},xhr.userme.res);
+						discord.users_me = xhr.userme.res;
+						sessionStorage.setItem( (btoa(location.href)).slice(0, 16) + '.'+'users_me', JSON.stringify(xhr.userme.res) );
+						
+						// get guild_affiliation
+						url = 'https://discordapp.com/api/users/@me/guilds';
+						req = await fetch(url,{
+							headers: {
+								Authorization: 'Bearer '+query_list.access_token,
+							},
+							cache: 'no-store',
+						});
+						if(req.status>299||req.status<200){
+							throw `${req.statusText}(${req.status})`;
+						}
+						res = await req.json();
+						console.debug({url:url,req:req,res:res});
+						discord.users_me_guilds = res;
+						sessionStorage.setItem( (btoa(location.href)).slice(0, 16) + '.'+'users_me_guild', JSON.stringify(res) );
 
-							// declare discord userinfo
-							discord_userinfo = {};
-							discord_userinfo.name = ( discord.users_me.global_name === '' || discord.users_me.global_name === null || discord.users_me.global_name === undefined ) ? discord.users_me.username : discord.users_me.global_name;
-							discord_userinfo.avatar = 'https://cdn.discordapp.com/avatars/'+discord.users_me.id+'/'+discord.users_me.avatar;
+						Array.from(document.querySelectorAll('[name="discord_access_token"]')).map((e)=>{
+							e.value = query_list.access_token;
+						});
 
-							dom_item = {};
-							dom_item['root'] = document.createElement('div');
-							dom_item['item1'] = document.createElement('a');
-							dom_item['item1'].href = 'https://discord.com/channels/@me';
-							dom_item['item1'].taget = '_blank';
-							dom_item['item2'] = document.createElement('img');
-							dom_item['item2'].src = 'https://cdn.discordapp.com/avatars/'+discord.users_me.id+'/'+discord.users_me.avatar;
-							dom_item['item2'].alt = 'discord avatar: '+discord.users_me.global_name;
-							dom_item['item2'].style.maxHeight = '1em';
-							dom_item['item1'].appendChild(dom_item['item2']);
-							dom_item['item2'] = document.createElement('span');
-							dom_item['item2'].innerText = discord_userinfo.name;
-							dom_item['item1'].appendChild(dom_item['item2']);
-							dom_item['root'].appendChild(dom_item['item1']);
-							dom_item['item1'] = document.createElement('a');
-							dom_item['item1'].href = 'https://api.n138.jp/sso_discord/server/token_revoke.php?token='+query_list.access_token;
-							dom_item['item1'].taget = '_blank';
-							dom_item['item1'].innerText = '【ログアウト(β)】';
-							dom_item['root'].appendChild(dom_item['item1']);
-							dom_item = dom_item['root'];
-							document.querySelectorAll('[name="discord_authn_portal"]')[0].appendChild(dom_item);
+						// declare discord userinfo
+						discord_userinfo = {};
+						discord_userinfo.name = ( discord.users_me.global_name === '' || discord.users_me.global_name === null || discord.users_me.global_name === undefined ) ? discord.users_me.username : discord.users_me.global_name;
+						discord_userinfo.avatar = 'https://cdn.discordapp.com/avatars/'+discord.users_me.id+'/'+discord.users_me.avatar;
 
-							// Load _announce.json
-							url = '../discord_json_announcements/_announce.json';
-							req = await fetch(url, {
-								cache: 'no-store',
-							});
-							res = await req.json();
-							console.debug({url:url, req:req, res:res,});
-							document.querySelector('#file_content').value = JSON.stringify(res,null,' '.repeat(4))
+						dom_item = {};
+						dom_item['root'] = document.createElement('div');
+						dom_item['item1'] = document.createElement('a');
+						dom_item['item1'].href = 'https://discord.com/channels/@me';
+						dom_item['item1'].taget = '_blank';
+						dom_item['item2'] = document.createElement('img');
+						dom_item['item2'].src = 'https://cdn.discordapp.com/avatars/'+discord.users_me.id+'/'+discord.users_me.avatar;
+						dom_item['item2'].alt = 'discord avatar: '+discord.users_me.global_name;
+						dom_item['item2'].style.maxHeight = '1em';
+						dom_item['item1'].appendChild(dom_item['item2']);
+						dom_item['item2'] = document.createElement('span');
+						dom_item['item2'].innerText = discord_userinfo.name;
+						dom_item['item1'].appendChild(dom_item['item2']);
+						dom_item['root'].appendChild(dom_item['item1']);
+						dom_item['item1'] = document.createElement('a');
+						dom_item['item1'].href = 'https://api.n138.jp/sso_discord/server/token_revoke.php?token='+query_list.access_token;
+						dom_item['item1'].taget = '_blank';
+						dom_item['item1'].innerText = '【ログアウト(β)】';
+						dom_item['root'].appendChild(dom_item['item1']);
+						dom_item = dom_item['root'];
+						document.querySelectorAll('[name="discord_authn_portal"]')[0].appendChild(dom_item);
+
+						// Load _announce.json
+						url = '../discord_json_announcements/_announce.json';
+						req = await fetch(url, {
+							cache: 'no-store',
+						});
+						res = await req.json();
+						console.debug({url:url, req:req, res:res,});
+						document.querySelector('#file_content').value = JSON.stringify(res,null,' '.repeat(4))
 
 					} else {
 						try {
