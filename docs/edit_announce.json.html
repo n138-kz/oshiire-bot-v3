@@ -244,12 +244,28 @@
 							xhr.userme = {
 								url: 'https://discordapp.com/api/users/@me',
 							};
-							xhr.userme.req = await fetch(await xhr.userme.url, {
-								headers: {
-									Authorization: 'Bearer '+query_list.access_token,
-								},
-								cache: 'no-store',
-							});
+							try {
+								xhr.userme.req = await fetch(await xhr.userme.url, {
+									headers: {
+										Authorization: 'Bearer '+query_list.access_token,
+									},
+									cache: 'no-store',
+								});
+							} catch (error) {
+								console.error({
+									error_raw: error,
+									error_message: error.message,
+									error_stack: error.stack,
+									fetch_request: xhr.userme.req,
+									fetch_response: [
+										xhr.userme.req.status,
+										xhr.userme.req.statusText,
+									],
+								});
+								setTimeout(()=>{
+									location.replace(location.origin+location.pathname);
+								}, 1000*5);
+							}
 							if(xhr.userme.req.status>299||xhr.userme.req.status<200){
 								throw `${xhr.userme.req.statusText}(${xhr.userme.req.status})`;
 							}
