@@ -238,7 +238,6 @@
 						location.replace( location.origin + location.pathname + '?' + 'access_token=' + discord.oauth2_token.access_token );
 
 					} else if ( query_list.access_token !== '' ) {
-						try{
 							// get user-me
 							let xhr = {};
 							xhr.userme = {
@@ -258,8 +257,8 @@
 									error_stack: error.stack,
 									fetch_request: xhr.userme.req,
 									fetch_response: [
-										xhr.userme.req.status,
-										xhr.userme.req.statusText,
+										await xhr.userme.req.status,
+										await xhr.userme.req.statusText,
 									],
 								});
 								setTimeout(()=>{
@@ -351,9 +350,6 @@
 							console.debug({url:url, req:req, res:res,});
 							document.querySelector('#file_content').value = JSON.stringify(res,null,' '.repeat(4))
 
-						}catch(e){
-							console.error(e);
-						}
 					} else {
 						try {
 							internalStorage = {
