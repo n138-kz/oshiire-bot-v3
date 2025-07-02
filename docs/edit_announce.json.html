@@ -342,7 +342,7 @@
 						document.querySelectorAll('[name="discord_authn_portal"]')[0].appendChild(dom_item);
 
 						// Load _announce.json
-						url = '../discord_json_announcements/_announce.json';
+						url = '../discord_json_announcements/_announce.json?t=0';
 						req = await fetch(url, {
 							cache: 'no-store',
 						});
