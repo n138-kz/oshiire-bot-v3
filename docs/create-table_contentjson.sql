@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS oshiirebotv3_contentjson;
+DROP VIEW oshiirebotv3_contentjson_view;
 CREATE TABLE IF NOT EXISTS oshiirebotv3_contentjson (
   "timestamp" double precision NOT NULL DEFAULT EXTRACT(epoch FROM CURRENT_TIMESTAMP),
   uuid text NOT NULL, -- $_SERVER['UNIQUE_ID']
