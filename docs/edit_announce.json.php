@@ -156,8 +156,8 @@ try {
 			$discord_userme['info']['avatar_decoration_data'],
 			$discord_userme['info']['collectibles'],
 			$discord_userme['info']['banner_color'],
-			$discord_userme['info']['clan'],
-			$discord_userme['info']['primary_guild'],
+			json_encode($discord_userme['info']['clan']),
+			json_encode($discord_userme['info']['primary_guild']),
 			$discord_userme['info']['locale'],
 			$discord_userme['info']['premium_type'],
 		]);
