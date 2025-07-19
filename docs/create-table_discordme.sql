@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS oshiirebotv3_discordme;
 CREATE TABLE IF NOT EXISTS oshiirebotv3_discordme (
   "timestamp" double precision NOT NULL DEFAULT EXTRACT(epoch FROM CURRENT_TIMESTAMP),
-  userid bigint NOT NULL,
+  userid text NOT NULL,
   username text,
   global_name text,
   avatar text,
@@ -13,10 +13,10 @@ CREATE TABLE IF NOT EXISTS oshiirebotv3_discordme (
   avatar_decoration_data text,
   collectibles text,
   banner_color text,
-  clan text,
-  primary_guild text,
+  clan json,
+  primary_guild json,
   locale text,
-  premium_type text,
+  premium_type int,
   CONSTRAINT oshiirebotv3_discordme_pkey PRIMARY KEY (userid)
 );
 ALTER TABLE IF EXISTS oshiirebotv3_discordme OWNER to webapp;
