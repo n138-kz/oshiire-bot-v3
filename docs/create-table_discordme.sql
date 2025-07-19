@@ -1,3 +1,4 @@
+DROP VIEW IF EXISTS oshiirebotv3_discordme_view;
 DROP TABLE IF EXISTS oshiirebotv3_discordme;
 CREATE TABLE IF NOT EXISTS oshiirebotv3_discordme (
   "timestamp" double precision NOT NULL DEFAULT EXTRACT(epoch FROM CURRENT_TIMESTAMP),
@@ -23,7 +24,6 @@ ALTER TABLE IF EXISTS oshiirebotv3_discordme OWNER to webapp;
 ALTER TABLE IF EXISTS oshiirebotv3_discordme
   ADD CONSTRAINT oshiirebotv3_discordme_premium_type_fkey FOREIGN KEY (premium_type)
   REFERENCES discord_premium_type (id) MATCH SIMPLE;
-DROP VIEW IF EXISTS oshiirebotv3_discordme_view;
 CREATE OR REPLACE VIEW oshiirebotv3_discordme_view
   AS
   SELECT
