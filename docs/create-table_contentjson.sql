@@ -14,7 +14,7 @@ ALTER TABLE IF EXISTS oshiirebotv3_contentjson OWNER to webapp;
 CREATE OR REPLACE VIEW oshiirebotv3_contentjson_view
   AS
   SELECT 
-    public.oshiirebotv3_contentjson."timestamp",
+    to_timestamp(trunc(public.oshiirebotv3_contentjson."timestamp")) as timestamp,
     public.oshiirebotv3_contentjson.client_name,
     public.oshiirebotv3_discordme.username,
     public.oshiirebotv3_contentjson.content_json_after as contentjson
